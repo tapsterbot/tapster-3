@@ -4,8 +4,6 @@ sys.path.append("..")
 import robot
 import time
 
-# TODO: Make this a command line flag...
-#PORT = "/dev/tty.usbserial-1420"
 if len(sys.argv) > 1:
     PORT = sys.argv[1]
 else:
