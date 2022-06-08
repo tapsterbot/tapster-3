@@ -1,8 +1,16 @@
+import sys
+sys.path.append("..")
+
 import robot
 import time
 
 # TODO: Make this a command line flag...
-PORT = "/dev/tty.usbserial-1420"
+#PORT = "/dev/tty.usbserial-1420"
+if len(sys.argv) > 1:
+    PORT = sys.argv[1]
+else:
+    print("Please specify a port.")
+    raise SystemExit
 
 bot = robot.Robot(PORT)
 bot.clearance_height = 0
