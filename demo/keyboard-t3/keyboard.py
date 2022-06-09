@@ -17,7 +17,7 @@ dashX = -36
 coordinatesT3 = {
     "q": [qX, -30],
     "w": [qX + 1*keyOffset, -30],
-    "e": [qX + 2*keyOffset, -30],
+    "e": [qX + 2*keyOffset - 1, -30],
     "r": [qX + 3*keyOffset, -30],
     "t": [qX + 4*keyOffset, -30],
     "y": [qX + 5*keyOffset, -30],
@@ -26,7 +26,7 @@ coordinatesT3 = {
     "o": [qX + 8*keyOffset, -30],
     "p": [qX + 9*keyOffset, -30],
     "a": [aX, -40],
-    "s": [aX + 1*keyOffset, -40],
+    "s": [aX + 1*keyOffset - 1, -40],
     "d": [aX + 2*keyOffset, -40],
     "f": [aX + 3*keyOffset, -40],
     "g": [aX + 4*keyOffset, -40],
@@ -92,13 +92,12 @@ class Keyboard:
         self.coordinates = coordinates
     
     def pressKey(self, key):
-        self.bot.tap(coordinates[key][0], coordinates[key][1], self.delayBetweenKeyPresses)
-        if key == "shift": time.sleep(0.1)
+        self.bot.tap(self.coordinates[key][0], self.coordinates[key][1], self.delayBetweenKeyPresses)
     
     def type(self, stringToType, printData = True):
         self.bot.go(0, 0, 0)
         time.sleep(0.5)
-        self.bot.go(coordinates[stringToType[0].lower()][0], coordinates[stringToType[0].lower()][1], self.bot.clearance_height + 3)
+        self.bot.go(self.coordinates[stringToType[0].lower()][0], self.coordinates[stringToType[0].lower()][1], self.bot.clearance_height + 3)
 
         tStart = time.time()
 
@@ -120,13 +119,13 @@ class Keyboard:
                 self.pressKey(let.lower())
         
         if printData:
-            print("Time to type: " + str(time.time() - tStart))
+            print("Time to type: " + str(time.time() - tStart) + " sec")
             print("WPM: " + str(((len(stringToType)/5.0))/((time.time() - tStart)/60.0)))
 
 
 #======================================#
 
-stringToType = "This is a string being typed on the Tapster T3!"
+stringToType = "This is a string being typed on the Tapster T3!\n"
 
 if __name__ == "__main__":
     if len(sys.argv) > 1: #take in the serial port name from the args
