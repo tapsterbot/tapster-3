@@ -2,9 +2,9 @@ import time
 import serial
 
 class Robot:
-    def __init__(self, port, printCoordinates = True, sendPause = 0.1):
-        self.clearance_height = 0
-        self.tap_height = 0
+    def __init__(self, port, clearance_height = 0, tap_height = 0, printCoordinates = True, sendPause = 0.1):
+        self.clearance_height = clearance_height
+        self.tap_height = tap_height
         self.printCoordinates = printCoordinates
         self.sendPause = sendPause
 

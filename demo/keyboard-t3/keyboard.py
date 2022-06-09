@@ -8,75 +8,13 @@ sys.path.append("..")
 import robot
 import time
 
-if len(sys.argv) > 1:
-    PORT = sys.argv[1]
-else:
-    print("Please specify a port.")
-    raise SystemExit
-
-bot = robot.Robot(PORT, False, 0.079)
-bot.clearance_height = -17
-bot.tap_height = -25
-
-delayBetweenKeyPresses = 0
-
-stringToType = """
-Domo arigato misuta Robotto
-Domo arigato misuta Robotto
-Mata au hi made
-Domo arigato misuta Robotto
-Himitsu wo shiritai
-You\'re wondering who I am (secret secret I\'ve got a secret)
-Machine or mannequin (secret secret I\'ve got a secret)
-With parts made in Japan (secret secret I\'ve got a secret)
-I am the modern man
-I\'ve got a secret I\'ve been hiding under my skin
-My heart is human, my blood is boiling, my brain I.B.M.
-So if you see me acting strangely, don\'t be surprised
-I\'m just a man who needed someone, and somewhere to hide
-To keep me alive, just keep me alive
-Somewhere to hide to keep me alive
-I\'m not a robot without emotions, I\'m not what you see
-I\'ve come to help you with your problems, so we can be free
-I\'m not a hero, I\'m not a savior, forget what you know
-I\'m just a man whose circumstances went beyond his control
-Beyond my control, we all need control
-I need control, we all need control
-I am the modern man (secret secret I\'ve got a secret)
-Who hides behind a mask (secret secret I\'ve got a secret)
-So no one else can see (secret secret I\'ve got a secret)
-My true identity
-Domo arigato, Mr. Roboto, domo, domo
-Domo arigato, Mr. Roboto, domo, domo
-Domo arigato, Mr. Roboto
-Domo arigato, Mr. Roboto
-Domo arigato, Mr. Roboto
-Domo arigato, Mr. Roboto
-Thank you very much, Mr. Roboto
-For doing the jobs nobody wants to
-And thank you very much, Mr. Roboto
-For helping me escape to where I needed to
-Thank you, thank you, thank you
-I want to thank you, please, thank you, oh yeah
-The problem\'s plain to see, too much technology
-Machines to save our lives, machines dehumanize
-The time has come at last (secret secret I\'ve got a secret)
-To throw away this mask (secret secret I\'ve got a secret)
-Now everyone can see (secret secret I\'ve got a secret)
-My true identity
-I\'m Kilroy! Kilroy! Kilroy! Kilroy!
-"""
-
-stringToType = "Guinness World Records has challenged me to type this sentence using one finger in the fastest time.\n"
-stringToType = "abcdefghijklmnopqrstuvwxyz"
-
 keyOffset = 6.8 #spacing between keys
 qX = -36.5
 aX = -34
 zX = -26
 oneX = -36
 dashX = -36
-coordinates = {
+coordinatesT3 = {
     "q": [qX, -30],
     "w": [qX + 1*keyOffset, -30],
     "e": [qX + 2*keyOffset, -30],
@@ -135,34 +73,75 @@ coordinates = {
     "\n": [20, -60] #enter
 }
 
-def pressKey(key):
-    bot.tap(coordinates[key][0], coordinates[key][1], delayBetweenKeyPresses)
-    if key == "shift": time.sleep(0.1)
+class Keyboard:
+    def __init__(self, robotObj, coordinates, delayBetweenKeyPresses = 0):
+        self.bot = robotObj
+        self.coordinates = coordinates
+        self.delayBetweenKeyPresses = delayBetweenKeyPresses
+    
+    def setClearanceHeight(self, val):
+        self.bot.clearance_height = val
+    
+    def setTapHeight(self, val):
+        self.bot.tap_height = val
+    
+    def setSerialSendRecvDelay(self, val): #Advanced users only, recommended value: 0.1
+        self.bot.sendPause = val
+    
+    def setCoordinates(self, coordinates):
+        self.coordinates = coordinates
+    
+    def pressKey(self, key):
+        self.bot.tap(coordinates[key][0], coordinates[key][1], self.delayBetweenKeyPresses)
+        if key == "shift": time.sleep(0.1)
+    
+    def type(self, stringToType, printData = True):
+        self.bot.go(0, 0, 0)
+        time.sleep(0.5)
+        self.bot.go(coordinates[stringToType[0].lower()][0], coordinates[stringToType[0].lower()][1], self.bot.clearance_height + 3)
 
-#==========================================================#
+        tStart = time.time()
 
-bot.go(0, 0, 0)
-time.sleep(0.5)
-bot.go(coordinates[stringToType[0].lower()][0], coordinates[stringToType[0].lower()][1], bot.clearance_height + 3)
+        for i, let in enumerate(stringToType):
+            if let.isupper():
+                self.pressKey("shift")
+                self.pressKey(let.lower())
+            elif let.isnumeric():
+                if i == 0 or stringToType[i - 1].isalpha() or stringToType[i - 1] == " ": self.pressKey("numMenu")
+                self.pressKey(let)
+                if i != len(stringToType) - 1 and stringToType[i + 1].isalpha(): self.pressKey("numMenu")
+                if i == len(stringToType) - 1: self.pressKey("numMenu")
+            elif not let.isalpha() and not let == " " and not let == "\n":
+                if i == 0 or stringToType[i - 1].isalpha() or stringToType[i - 1] == " ": self.pressKey("numMenu")
+                self.pressKey(let)
+                if i != len(stringToType) - 1 and stringToType[i + 1].isalpha() and let != "\'": self.pressKey("numMenu")
+                elif i == len(stringToType) - 1: self.pressKey("numMenu")
+            else:
+                self.pressKey(let.lower())
+        
+        if printData:
+            print("Time to type: " + str(time.time() - tStart))
+            print("WPM: " + str(((len(stringToType)/5.0))/((time.time() - tStart)/60.0)))
 
-tStart = time.time()
 
-for i, let in enumerate(stringToType):
-    if let.isupper():
-        pressKey("shift")
-        pressKey(let.lower())
-    elif let.isnumeric():
-        if i == 0 or stringToType[i - 1].isalpha() or stringToType[i - 1] == " ": pressKey("numMenu")
-        pressKey(let)
-        if i != len(stringToType) - 1 and stringToType[i + 1].isalpha(): pressKey("numMenu")
-        if i == len(stringToType) - 1: pressKey("numMenu")
-    elif not let.isalpha() and not let == " " and not let == "\n":
-        if i == 0 or stringToType[i - 1].isalpha() or stringToType[i - 1] == " ": pressKey("numMenu")
-        pressKey(let)
-        if i != len(stringToType) - 1 and stringToType[i + 1].isalpha() and let != "\'": pressKey("numMenu")
-        elif i == len(stringToType) - 1: pressKey("numMenu")
+#======================================#
+
+stringToType = "This is a string being typed on the Tapster T3!"
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1: #take in the serial port name from the args
+        PORT = sys.argv[1]
     else:
-        pressKey(let.lower())
+        print("Please specify a port.")
+        raise SystemExit
 
-print("Time to type: " + str(time.time() - tStart))
-print("WPM: " + str(((len(stringToType)/5.0))/((time.time() - tStart)/60.0)))
+    bot = robot.Robot(PORT, -17, -25, False, 0.079) #set sendPause to 0.079 and printCoordinates to False for faster operation
+    keyboard = Keyboard(bot, coordinatesT3, 0)
+    keyboard.type(stringToType, True)
+
+#T3 and iPhone XS Max settings:
+#clearance_height = -17
+#tap_height = -25
+#serialSendRecvDelay = 0.079
+#printCoordinates = False
+#delayBetweenKeyPresses = 0
