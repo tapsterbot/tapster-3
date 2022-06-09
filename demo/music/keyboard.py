@@ -16,7 +16,7 @@ import robot
 import time
 
 keyOffset = 6.8 #spacing between keys
-qX = -38
+qX = -36.5
 aX = -34
 zX = -26
 oneX = -36
@@ -24,16 +24,16 @@ dashX = -36
 coordinatesT3 = {
     "q": [qX, -30],
     "w": [qX + 1*keyOffset, -30],
-    "e": [qX + 2*keyOffset, -30],
+    "e": [qX + 2*keyOffset - 1, -30],
     "r": [qX + 3*keyOffset, -30],
-    "t": [qX + 4*keyOffset + 1, -30],
+    "t": [qX + 4*keyOffset, -30],
     "y": [qX + 5*keyOffset, -30],
     "u": [qX + 6*keyOffset, -30],
-    "i": [qX + 7*keyOffset, -30],
-    "o": [qX + 8*keyOffset + 1, -30],
+    "i": [qX + 7*keyOffset + 1, -30],
+    "o": [qX + 8*keyOffset, -30],
     "p": [qX + 9*keyOffset, -30],
     "a": [aX, -40],
-    "s": [aX + 1*keyOffset, -40],
+    "s": [aX + 1*keyOffset - 1, -40],
     "d": [aX + 2*keyOffset, -40],
     "f": [aX + 3*keyOffset, -40],
     "g": [aX + 4*keyOffset, -40],
@@ -94,10 +94,10 @@ class Keyboard:
     
     def setSerialSendRecvDelay(self, val): #Advanced users only, recommended value: 0.1
         self.bot.sendPause = val
-
+    
     def setDelayBetweenKeyPresses(self, val):
         self.delayBetweenKeyPresses = val
-    
+
     def setCoordinates(self, coordinates): #Params: coordinates: a Python dictionary, formatted as above, with the (x, y) coordinates of each key
         self.coordinates = coordinates
     
@@ -136,8 +136,8 @@ class Keyboard:
 #======================================#
 
 stringToType = "This is a string being typed on the Tapster T3!\n"
-stringToType = "The quick brown fox jumped over the lazy dog. \n"
-#stringToType = "qqwweerrttyyuuiiooppaassddffgghhjjkkllzzxxccvvbbnnmm"
+stringToType = "Guinness World Records has challenged me to type this sentence using one finger in the fastest time."
+stringToType = "qqwweerrttyyuuiiooppaassddffgghhjjkkllzzxxccvvbbnnmm"
 
 if __name__ == "__main__":
     if len(sys.argv) > 1: #take in the serial port name from the args
@@ -148,5 +148,4 @@ if __name__ == "__main__":
 
     bot = robot.Robot(PORT, -17, -25, False, 0.079) #set sendPause to 0.079 and printCoordinates to False for faster operation
     keyboard = Keyboard(bot, coordinatesT3, 0)
-    for i in range(10):
-        keyboard.type(stringToType, True)
+    keyboard.type(stringToType, True)

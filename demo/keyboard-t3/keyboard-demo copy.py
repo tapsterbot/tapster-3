@@ -1,14 +1,3 @@
-#Keyboard Demo
-
-#iPhone keyboard settings: All autocorrect and auto capitilization off. Caps lock disabled.
-
-#T3 and iPhone XS Max program settings:
-#clearance_height = -17
-#tap_height = -25
-#serialSendRecvDelay = 0.079
-#printCoordinates = False
-#delayBetweenKeyPresses = 0
-
 import sys
 sys.path.append("..")
 
@@ -16,36 +5,36 @@ import robot
 import time
 
 keyOffset = 6.8 #spacing between keys
-qX = -38
+qX = -36.5
 aX = -34
 zX = -26
 oneX = -36
 dashX = -36
 coordinatesT3 = {
-    "q": [qX, -30],
+    "q": [qX - 1, -30],
     "w": [qX + 1*keyOffset, -30],
-    "e": [qX + 2*keyOffset, -30],
+    "e": [qX + 2*keyOffset - 1, -30],
     "r": [qX + 3*keyOffset, -30],
-    "t": [qX + 4*keyOffset + 1, -30],
-    "y": [qX + 5*keyOffset, -30],
+    "t": [qX + 4*keyOffset, -30],
+    "y": [qX + 5*keyOffset - 2.5, -30],
     "u": [qX + 6*keyOffset, -30],
-    "i": [qX + 7*keyOffset, -30],
-    "o": [qX + 8*keyOffset + 1, -30],
+    "i": [qX + 7*keyOffset + 0.5, -30],
+    "o": [qX + 8*keyOffset, -30],
     "p": [qX + 9*keyOffset, -30],
     "a": [aX, -40],
-    "s": [aX + 1*keyOffset, -40],
+    "s": [aX + 1*keyOffset - 1, -40],
     "d": [aX + 2*keyOffset, -40],
     "f": [aX + 3*keyOffset, -40],
-    "g": [aX + 4*keyOffset, -40],
-    "h": [aX + 5*keyOffset, -40],
+    "g": [aX + 4*keyOffset + 1, -40],
+    "h": [aX + 5*keyOffset + 2, -40],
     "j": [aX + 6*keyOffset, -40],
     "k": [aX + 7*keyOffset, -40],
     "l": [aX + 8*keyOffset, -40],
     "z": [zX, -50],
     "x": [zX + 1*keyOffset, -50],
-    "c": [zX + 2*keyOffset, -50],
+    "c": [zX + 2*keyOffset - 1, -50],
     "v": [zX + 3*keyOffset, -50],
-    "b": [zX + 4*keyOffset, -50],
+    "b": [zX + 4*keyOffset + 1, -50],
     "n": [zX + 5*keyOffset, -50],
     "m": [zX + 6*keyOffset, -50],
     " ": [-6, -60],
@@ -76,7 +65,7 @@ coordinatesT3 = {
     "\'": [14, -50], #apostrophe
     "shift": [-36, -50],
     "back": [24, -50],
-    "numMenu": [-36, -60],
+    "numMenu": [-37, -60],
     "\n": [20, -60] #enter
 }
 
@@ -135,10 +124,6 @@ class Keyboard:
 
 #======================================#
 
-stringToType = "This is a string being typed on the Tapster T3!\n"
-stringToType = "The quick brown fox jumped over the lazy dog. \n"
-#stringToType = "qqwweerrttyyuuiiooppaassddffgghhjjkkllzzxxccvvbbnnmm"
-
 if __name__ == "__main__":
     if len(sys.argv) > 1: #take in the serial port name from the args
         PORT = sys.argv[1]
@@ -146,7 +131,11 @@ if __name__ == "__main__":
         print("Please specify a port.")
         raise SystemExit
 
-    bot = robot.Robot(PORT, -17, -25, False, 0.079) #set sendPause to 0.079 and printCoordinates to False for faster operation
+    bot = robot.Robot(PORT, -16, -25, False, 0.079) #set sendPause to 0.079 and printCoordinates to False for faster operation
     keyboard = Keyboard(bot, coordinatesT3, 0)
-    for i in range(10):
-        keyboard.type(stringToType, True)
+    keyboard.setDelayBetweenKeyPresses(0.07)
+    keyboard.type("Hello! I'm a Tapster 3 Robot.\n\n", False)
+    keyboard.setDelayBetweenKeyPresses(0)
+    keyboard.type("Watch how fast I can type...\n\n", False)
+    keyboard.setDelayBetweenKeyPresses(0)
+    keyboard.type("The quick brown fox jumps over the lazy dog. \n")

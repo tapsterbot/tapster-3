@@ -37,7 +37,7 @@ class Robot:
         if self.printCoordinates: print(position)
         self.send("G1 " + position)
 
-    def tap(self, x = None,y = None, pause = .04):
+    def tap(self, x = None,y = None, pause = .06, travelPause = 0):
         position = ""
         if x != None:
             position += " X" + str(x)
@@ -45,6 +45,7 @@ class Robot:
             position += " Y" + str(y)
         if self.printCoordinates: print(position)
         self.send("G1 " + position + " Z" + str(self.clearance_height))
+        time.sleep(travelPause)
         self.send("G1 " + position + " Z" + str(self.tap_height))
         time.sleep(pause)
         self.send("G1 " + position + " Z" + str(self.clearance_height))
