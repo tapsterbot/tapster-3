@@ -16,24 +16,24 @@ import robot
 import time
 
 keyOffset = 6.8 #spacing between keys
-qX = -36.5
+qX = -38
 aX = -34
 zX = -26
-oneX = -36
+oneX = -37
 dashX = -36
 coordinatesT3 = {
     "q": [qX, -30],
     "w": [qX + 1*keyOffset, -30],
-    "e": [qX + 2*keyOffset - 1, -30],
-    "r": [qX + 3*keyOffset, -30],
-    "t": [qX + 4*keyOffset, -30],
+    "e": [qX + 2*keyOffset, -30],
+    "r": [qX + 3*keyOffset - 1, -30],
+    "t": [qX + 4*keyOffset + 1, -30],
     "y": [qX + 5*keyOffset, -30],
     "u": [qX + 6*keyOffset, -30],
-    "i": [qX + 7*keyOffset + 1, -30],
-    "o": [qX + 8*keyOffset, -30],
+    "i": [qX + 7*keyOffset, -30],
+    "o": [qX + 8*keyOffset + 1, -30],
     "p": [qX + 9*keyOffset, -30],
     "a": [aX, -40],
-    "s": [aX + 1*keyOffset - 1, -40],
+    "s": [aX + 1*keyOffset, -40],
     "d": [aX + 2*keyOffset, -40],
     "f": [aX + 3*keyOffset, -40],
     "g": [aX + 4*keyOffset, -40],
@@ -76,7 +76,7 @@ coordinatesT3 = {
     "\'": [14, -50], #apostrophe
     "shift": [-36, -50],
     "back": [24, -50],
-    "numMenu": [-36, -60],
+    "numMenu": [-38, -60],
     "\n": [20, -60] #enter
 }
 
@@ -105,8 +105,6 @@ class Keyboard:
         self.bot.tap(self.coordinates[key][0], self.coordinates[key][1], self.delayBetweenKeyPresses)
     
     def type(self, stringToType, printData = True):
-        self.bot.go(0, 0, 0)
-        time.sleep(0.5)
         self.bot.go(self.coordinates[stringToType[0].lower()][0], self.coordinates[stringToType[0].lower()][1], self.bot.clearance_height + 3)
 
         tStart = time.time()

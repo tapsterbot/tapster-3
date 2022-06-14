@@ -76,7 +76,7 @@ coordinatesT3 = {
     "\'": [14, -50], #apostrophe
     "shift": [-36, -50],
     "back": [24, -50],
-    "numMenu": [-36, -60],
+    "numMenu": [-38, -60],
     "\n": [20, -60] #enter
 }
 
