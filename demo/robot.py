@@ -26,7 +26,7 @@ class Robot:
         if result != "ok":
             print(result)
 
-    def go(self, x = None,y = None, z = None):
+    def go(self, x = None,y = None, z = None, feedRate = None):
         position = ""
         if x != None:
             position += " X" + str(x)
@@ -34,6 +34,8 @@ class Robot:
             position += " Y" + str(y)
         if z != None:
             position += " Z" + str(z)
+        if feedRate != None:
+            position += " F" + str(feedRate)
         if self.printCoordinates: print(position)
         self.send("G1 " + position)
 
