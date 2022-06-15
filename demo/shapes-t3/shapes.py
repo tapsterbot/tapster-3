@@ -8,18 +8,14 @@ from svg_to_gcode.compiler import Compiler, interfaces
 import robot
 
 class Draw:
-    def __init__(self, robotObj, feedRate = 35000):
+    def __init__(self, robotObj):
         self.bot = robotObj
-        self.feedRate = feedRate
     
     def setClearanceHeight(self, val):
         self.bot.clearance_height = val
     
     def setTapHeight(self, val):
         self.bot.tap_height = val
-    
-    def setFeedRate(self, val):
-        self.feedRate = val
     
     def drawLine(self, x1, y1, x2, y2, pickUpPen = True, moveDelay = 0):
         self.bot.go(round(x1, 4), round(y1, 4))
@@ -79,7 +75,10 @@ class Draw:
         self.drawLine(radius*math.cos(math.pi/2 + 3*starAngleConst) + x, radius*math.sin(math.pi/2 + 3*starAngleConst) + y,
                       radius*math.cos(math.pi/2) + x, radius*math.sin(math.pi/2) + y, True)
 
-    def drawSVG(self, file):
+    def drawSVG(self, file, x1, y1, x2, y2, feedRate = 5000, moveDelay = 0.25): #(x1, y1): bottom left corner ; (x2, y2): top right corner
+        oldTapHeight = self.bot.tap_height
+        self.bot.tap_height = -20.5 #required for accuracy
+
         # Instantiate a compiler, specifying the interface type and the speed at which the tool should move. pass_depth controls
         # how far down the tool moves after every pass. Set it to 0 if your machine does not support Z axis movement.
         gcode_compiler = Compiler(interfaces.Gcode, movement_speed=30000, cutting_speed=30000, pass_depth=0)
@@ -87,10 +86,46 @@ class Draw:
         curves = parse_file(file) # Parse an svg file into geometric curves
 
         gcode_compiler.append_curves(curves) 
-        gcode_compiler.compile_to_file(file[:-3] + "gcode", passes=2)
+        gcode_compiler.compile_to_file(file[:-3] + "gcode", passes = 1) #passes = 1, only calculate 1 pass
         gcode = open(file[:-3] + "gcode", 'r')
         lines = gcode.readlines()
         
+        #Find the x and y ranges of the gcode file
+        greatest = [-1000000, -1000000] #(x, y)
+        least = [1000000, 1000000] #(x, y)
+        for i, line in enumerate(lines):
+            if line[:3] == "G0 " or line[:3] == "G1 ":
+                xIndex = line.find("X")
+                yIndex = line.find("Y")
+                xVal = float(line[xIndex + 1:line.find(" ", xIndex) - 1])
+                yVal = float(line[yIndex + 1:line.find(" ", yIndex) - 1])
+                if xVal > greatest[0]: greatest[0] = xVal
+                if yVal > greatest[1]: greatest[1] = yVal
+                if xVal < least[0]: least[0] = xVal
+                if yVal < least[1]: least[1] = yVal
+
+        #calculate the scale fraction for the svg and the specified coordinates
+        scale = 1
+        if abs((x2-x1)/(greatest[0] - least[0])) < abs((y2 - y1)/(greatest[1] - least[1])): scale = abs((x2 - x1)/(greatest[0] - least[0]))
+        else: scale = abs((y2 - y1)/(greatest[1] - least[1]))
+
+        #go through the gcode lines, send commands to the robot
+        for line in lines:
+            if line[:2] == "M5": self.bot.go(None, None, bot.clearance_height) #gcode commands to start/stop the spindle/put the pen up/down
+            elif line[:2] == "M3": self.bot.go(None, None, bot.tap_height)
+            elif line[:3] == "G0 " or line[:3] == "G1 ":
+                line = line[:-2] + " "
+                coordinates = [0, 0] #(x, y)
+                for i in range(len(line)):
+                    if line[i] == 'X': coordinates[0] = float(line[i + 1:line.find(" ", i)]) #translate from string to float
+                    elif line[i] == 'Y': coordinates[1] = float(line[i + 1:line.find(" ", i)])
+                
+                coordinates[0] = round((coordinates[0]*scale) - least[0] + x1, 2)
+                coordinates[1] = round((coordinates[1]*scale) - least[1] + y1, 2)
+                self.bot.go(coordinates[0], coordinates[1], None, feedRate) #note the slow feed rate, this is for improved accuracy
+                time.sleep(moveDelay)
+        self.bot.tap_height = oldTapHeight #reset the tap height
+        self.bot.send("G1 F35000")
 
 
 #=========================================================================#
@@ -105,4 +140,3 @@ if __name__ == "__main__":
     bot = robot.Robot(PORT, -17, -22, False, 0.1)
     bot.go(0, 0, 0)
     draw = Draw(bot)
-    #test in repl
