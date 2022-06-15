@@ -9,6 +9,7 @@
 #printCoordinates = False
 #delayBetweenKeyPresses = 0
 
+from shutil import move
 import sys
 sys.path.append("..")
 
@@ -81,10 +82,11 @@ coordinatesT3 = {
 }
 
 class Keyboard:
-    def __init__(self, robotObj, coordinates, delayBetweenKeyPresses = 0):
+    def __init__(self, robotObj, coordinates, delayBetweenKeyPresses = 0, moveDelay = 0):
         self.bot = robotObj
         self.coordinates = coordinates
         self.delayBetweenKeyPresses = delayBetweenKeyPresses
+        self.moveDelay = moveDelay
     
     def setClearanceHeight(self, val):
         self.bot.clearance_height = val
@@ -95,14 +97,17 @@ class Keyboard:
     def setSerialSendRecvDelay(self, val): #Advanced users only, recommended value: 0.1
         self.bot.sendPause = val
     
-    def setDelayBetweenKeyPresses(self, val):
+    def setDelayBetweenKeyPresses(self, val): #how long the stylus stays down during a "press"
         self.delayBetweenKeyPresses = val
+    
+    def setMoveDelay(self, val): #delay after moving to a position
+        self.moveDelay = val
 
     def setCoordinates(self, coordinates): #Params: coordinates: a Python dictionary, formatted as above, with the (x, y) coordinates of each key
         self.coordinates = coordinates
     
     def pressKey(self, key):
-        self.bot.tap(self.coordinates[key][0], self.coordinates[key][1], self.delayBetweenKeyPresses)
+        self.bot.tap(self.coordinates[key][0], self.coordinates[key][1], self.delayBetweenKeyPresses, self.moveDelay)
     
     def type(self, stringToType, printData = True):
         self.bot.go(self.coordinates[stringToType[0].lower()][0], self.coordinates[stringToType[0].lower()][1], self.bot.clearance_height + 3)
