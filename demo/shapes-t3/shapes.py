@@ -8,14 +8,18 @@ from svg_to_gcode.compiler import Compiler, interfaces
 import robot
 
 class Draw:
-    def __init__(self, robotObj):
+    def __init__(self, robotObj, feedRate = 35000):
         self.bot = robotObj
+        self.feedRate = feedRate
     
     def setClearanceHeight(self, val):
         self.bot.clearance_height = val
     
     def setTapHeight(self, val):
         self.bot.tap_height = val
+    
+    def setFeedRate(self, val):
+        self.feedRate = val
     
     def drawLine(self, x1, y1, x2, y2, pickUpPen = True, moveDelay = 0):
         self.bot.go(round(x1, 4), round(y1, 4))
@@ -86,8 +90,7 @@ class Draw:
         gcode_compiler.compile_to_file(file[:-3] + "gcode", passes=2)
         gcode = open(file[:-3] + "gcode", 'r')
         lines = gcode.readlines()
-        for line in lines:
-            if line[:3] == "G0 " or line[:3] == "G1 ": self.bot.send(line) #only send move commands
+        
 
 
 #=========================================================================#
