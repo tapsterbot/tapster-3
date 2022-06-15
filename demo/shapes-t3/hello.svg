@@ -8,7 +8,7 @@
    version="1.1"
    id="svg69"
    inkscape:version="1.2 (1:1.2+202206011326+fc4e4096c5)"
-   sodipodi:docname="text.svg"
+   sodipodi:docname="hello.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,8 +25,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1.3075636"
-     inkscape:cx="396.92141"
-     inkscape:cy="129.6304"
+     inkscape:cx="396.92142"
+     inkscape:cy="129.63041"
      inkscape:window-width="1600"
      inkscape:window-height="784"
      inkscape:window-x="0"
@@ -47,7 +47,7 @@
       <g
          inkscape:label="Hershey Text"
          style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round"
-         transform="matrix(2.2819883,0,0,1.0038079,-3.0487351,-2.1090444)"
+         transform="matrix(0,-1.0038102,2.2819831,0,-2.2309044,17.174058)"
          id="g3161">
         <g
            transform="translate(4.05239,9.85969)"

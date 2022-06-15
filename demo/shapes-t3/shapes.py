@@ -62,18 +62,18 @@ class Draw:
         self.drawParametricCurve(lambda t : radiusGrowthPerRev*(t/(2*math.pi))*math.cos(t),
                                  lambda t : radiusGrowthPerRev*(t/(2*math.pi))*math.sin(t), 0, tEnd, (tEnd/(2*math.pi))*16)
 
-    def drawStar(self, x, y, radius):
+    def drawStar(self, x, y, radius, rotation):
         starAngleConst = (2*math.pi)/5
-        self.drawLine(radius*math.cos(math.pi/2) + x, radius*math.sin(math.pi/2) + y,
-                      radius*math.cos(math.pi/2 + 2*starAngleConst) + x, radius*math.sin(math.pi/2 + 2*starAngleConst) + y, False, 0.05)
-        self.drawLine(radius*math.cos(math.pi/2 + 2*starAngleConst) + x, radius*math.sin(math.pi/2 + 2*starAngleConst) + y,
-                      radius*math.cos(math.pi/2 + 4*starAngleConst) + x, radius*math.sin(math.pi/2 + 4*starAngleConst) + y, False)
-        self.drawLine(radius*math.cos(math.pi/2 + 4*starAngleConst) + x, radius*math.sin(math.pi/2 + 4*starAngleConst) + y,
-                      radius*math.cos(math.pi/2 + 1*starAngleConst) + x, radius*math.sin(math.pi/2 + 1*starAngleConst) + y, False)
-        self.drawLine(radius*math.cos(math.pi/2 + 1*starAngleConst) + x, radius*math.sin(math.pi/2 + 1*starAngleConst) + y,
-                      radius*math.cos(math.pi/2 + 3*starAngleConst) + x, radius*math.sin(math.pi/2 + 3*starAngleConst) + y, False)
-        self.drawLine(radius*math.cos(math.pi/2 + 3*starAngleConst) + x, radius*math.sin(math.pi/2 + 3*starAngleConst) + y,
-                      radius*math.cos(math.pi/2) + x, radius*math.sin(math.pi/2) + y, True)
+        self.drawLine(radius*math.cos(math.pi/2 + rotation) + x, radius*math.sin(math.pi/2 + rotation) + y,
+                      radius*math.cos(math.pi/2 + 2*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 2*starAngleConst + rotation) + y, False, 0.05)
+        self.drawLine(radius*math.cos(math.pi/2 + 2*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 2*starAngleConst + rotation) + y,
+                      radius*math.cos(math.pi/2 + 4*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 4*starAngleConst + rotation) + y, False)
+        self.drawLine(radius*math.cos(math.pi/2 + 4*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 4*starAngleConst + rotation) + y,
+                      radius*math.cos(math.pi/2 + 1*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 1*starAngleConst + rotation) + y, False)
+        self.drawLine(radius*math.cos(math.pi/2 + 1*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 1*starAngleConst + rotation) + y,
+                      radius*math.cos(math.pi/2 + 3*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 3*starAngleConst + rotation) + y, False)
+        self.drawLine(radius*math.cos(math.pi/2 + 3*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 3*starAngleConst + rotation) + y,
+                      radius*math.cos(math.pi/2 + rotation) + x, radius*math.sin(math.pi/2 + rotation) + y, True)
 
     def drawSVG(self, file, x1, y1, x2, y2, feedRate = 5000, moveDelay = 0.25): #(x1, y1): bottom left corner ; (x2, y2): top right corner
         oldTapHeight = self.bot.tap_height
@@ -141,24 +141,25 @@ if __name__ == "__main__":
     draw.bot.go(0, 0, 0)
     time.sleep(0.5)
 
-    draw.drawSVG("hello.svg", -20, -10, 20, 10, 10000, 0)
-    draw.drawLine(-20, -20, 20, -20)
-    draw.drawLine(-20, 20, 20, 20)
-    draw.drawRectangle(-20, -22, 20, -30)
-    draw.drawRectangle(-20, 22, 20, 30)
+    draw.drawSVG("hello.svg", -40, -50, 40, 50, 10000, 0)
+    #draw.drawLine(-20, -50, 20, -50)
+    #draw.drawLine(-20, 50, 20, 50)
+    #draw.drawRectangle(-20, -52, 20, -60)
+    #draw.drawRectangle(-20, 52, 20, 60)
 
-    draw.bot.tap(24, 56, 0.08, 0.06) #clear the screen
+    #draw.bot.tap(-36, 60, 0.08, 0.06) #clear the screen
 
-    draw.drawStar(0, 0, 20)
-    draw.drawCircle(0, 0, 20)
-    draw.drawTriangle(-20, -30, 20, -30, 0, -50)
+    #draw.drawStar(0, 0, 20, math.pi/2)
+    #draw.drawCircle(0, 0, 20)
+    #draw.drawTriangle(-20, -30, 20, -30, 0, -50)
+    #draw.drawTriangle(-20, 30, 20, 30, 0, 50)
 
-    draw.bot.tap(22, 56, 0.08, 0.06)
+    #draw.bot.tap(-36, 60, 0.08, 0.06)
 
-    draw.drawSpiral(0, 0, 6*math.pi, 7.5)
+    #draw.drawSpiral(0, 0, 6*math.pi, 7.5)
 
-    draw.bot.tap(22, 56, 0.08, 0.06)
+    #draw.bot.tap(-36, 60, 0.08, 0.06)
 
-    draw.drawSVG("bye.svg", -20, 10, 20, 30, 10000, 0)
-    draw.drawSVG("tapster.svg", -20, -40, 20, 0, 1500, 0.25)
-    draw.bot.go(0, 50, -10)
+    #draw.drawSVG("bye.svg", -50, -60, 30, 60, 10000, 0)
+    #draw.drawSVG("tapster.svg", -25, 10, 25, 60, 1500, 0.25)
+    #draw.bot.go(0, 65, 10)

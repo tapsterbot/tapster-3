@@ -7,7 +7,7 @@
    id="svg3921"
    version="1.1"
    inkscape:version="1.2 (1:1.2+202206011326+fc4e4096c5)"
-   sodipodi:docname="tapster-simplified.svg"
+   sodipodi:docname="tapster.svg"
    inkscape:export-filename="/Users/hugs/Projects/logos/logos/tapster-logo-color-transparent-background.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
@@ -30,7 +30,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="6.12"
      inkscape:cx="90.849673"
-     inkscape:cy="45.01634"
+     inkscape:cy="45.343137"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -72,7 +72,7 @@
        y="33.059383" />
     <g
        id="g4485"
-       transform="matrix(0.25374624,0,0,0.25374624,31.404987,24.566443)"
+       transform="matrix(0,-0.25374624,0.25374624,0,35.260682,83.806945)"
        style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:2.83465;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1">
       <path
          sodipodi:nodetypes="ccccccccccc"
@@ -82,7 +82,7 @@
          style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:2.83465;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
-       transform="matrix(-0.25374624,0,0,0.25374624,93.525112,24.566443)"
+       transform="matrix(0,0.25374624,0.25374624,0,35.260683,21.686821)"
        id="g4485-9"
        style="stroke:#000000;stroke-opacity:1">
       <path
