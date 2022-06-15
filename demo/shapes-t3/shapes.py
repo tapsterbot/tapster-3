@@ -27,7 +27,7 @@ class Draw:
     def drawCartesianCurve(self, expressionSolvedForY, xStart, xEnd, numSteps): #Params: expressionSolvedForY is a lambda expression of the curve, in terms of x/solved for y
         x = float(xStart)
         self.bot.go(round(x, 2), round(expressionSolvedForY(x), 2))
-        self.bot.go(round(x, 2), round(expressionSolvedForY(x), 2), bot.tap_height)
+        self.bot.go(round(x, 2), round(expressionSolvedForY(x), 2), self.bot.tap_height)
         time.sleep(0.05)
         while x < xEnd:
             x += (float(xEnd - xStart))/numSteps
@@ -37,7 +37,7 @@ class Draw:
     def drawParametricCurve(self, x, y, tStart, tEnd, numSteps): #Params: x and y are lambda expressions in terms of t
         t = float(tStart)
         self.bot.go(round(x(t), 2), round(y(t), 2))
-        self.bot.go(round(x(t), 2), round(y(t), 2), bot.tap_height)
+        self.bot.go(round(x(t), 2), round(y(t), 2), self.bot.tap_height)
         time.sleep(0.05)
         while t < tEnd:
             t += (float(tEnd - tStart))/numSteps
@@ -77,7 +77,7 @@ class Draw:
 
     def drawSVG(self, file, x1, y1, x2, y2, feedRate = 5000, moveDelay = 0.25): #(x1, y1): bottom left corner ; (x2, y2): top right corner
         oldTapHeight = self.bot.tap_height
-        self.bot.tap_height = -20.5 #required for accuracy
+        self.bot.tap_height = -20 #required for accuracy
 
         # Instantiate a compiler, specifying the interface type and the speed at which the tool should move. pass_depth controls
         # how far down the tool moves after every pass. Set it to 0 if your machine does not support Z axis movement.
@@ -111,8 +111,8 @@ class Draw:
 
         #go through the gcode lines, send commands to the robot
         for line in lines:
-            if line[:2] == "M5": self.bot.go(None, None, bot.clearance_height) #gcode commands to start/stop the spindle/put the pen up/down
-            elif line[:2] == "M3": self.bot.go(None, None, bot.tap_height)
+            if line[:2] == "M5": self.bot.go(None, None, self.bot.clearance_height) #gcode commands to start/stop the spindle/put the pen up/down
+            elif line[:2] == "M3": self.bot.go(None, None, self.bot.tap_height)
             elif line[:3] == "G0 " or line[:3] == "G1 ":
                 line = line[:-2] + " "
                 coordinates = [0, 0] #(x, y)
@@ -137,6 +137,28 @@ if __name__ == "__main__":
         print("Please specify a port.")
         raise SystemExit
     
-    bot = robot.Robot(PORT, -17, -22, False, 0.1)
-    bot.go(0, 0, 0)
-    draw = Draw(bot)
+    draw = Draw(robot.Robot(PORT, -15, -22, False, 0.1))
+    draw.bot.go(0, 0, 0)
+    time.sleep(0.5)
+
+    draw.drawSVG("hello.svg", -20, -10, 20, 10, 10000, 0)
+    draw.drawLine(-20, -20, 20, -20)
+    draw.drawLine(-20, 20, 20, 20)
+    draw.drawRectangle(-20, -22, 20, -30)
+    draw.drawRectangle(-20, 22, 20, 30)
+
+    draw.bot.tap(24, 56, 0.08, 0.06) #clear the screen
+
+    draw.drawStar(0, 0, 20)
+    draw.drawCircle(0, 0, 20)
+    draw.drawTriangle(-20, -30, 20, -30, 0, -50)
+
+    draw.bot.tap(22, 56, 0.08, 0.06)
+
+    draw.drawSpiral(0, 0, 6*math.pi, 7.5)
+
+    draw.bot.tap(22, 56, 0.08, 0.06)
+
+    draw.drawSVG("bye.svg", -20, 10, 20, 30, 10000, 0)
+    draw.drawSVG("tapster.svg", -20, -40, 20, 0, 1500, 0.25)
+    draw.bot.go(0, 50, -10)
