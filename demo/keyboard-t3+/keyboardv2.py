@@ -3,9 +3,9 @@
 #Tab S7 keyboard settings: Using Gboard rather than the default keyboard. All autocorrect and auto capitalization off.
 
 #T3+ and Samsung Galaxy Tab S7 program settings:
-#clearance_height = -23
-#tap_height = -32
-#serialSendRecvDelay = 0.079
+#clearance_height = -22
+#tap_height = -34
+#serialSendRecvDelay = 0.09
 #printCoordinates = False
 #delayBetweenKeyPresses = 0
 
@@ -169,7 +169,7 @@ if __name__ == "__main__":
         print("Please specify a port.")
         raise SystemExit
 
-    bot = robot.Robot(PORT, -24, -34, False, 0.085) #set sendPause to 0.079 and printCoordinates to False for faster operation
+    bot = robot.Robot(PORT, -22, -34, False, 0.09) #set sendPause to 0.079 and printCoordinates to False for faster operation
     keyboard = Keyboard(bot, coordinatesT3Plus, 0)
 
     if len(sys.argv) > 2:

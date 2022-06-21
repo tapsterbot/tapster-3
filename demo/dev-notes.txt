@@ -1,0 +1,12 @@
+Notes for developers:
+
+Pushing the robot to go faster, but getting erratic behaviour and errors kicked back over serial:
+    - As you push the robot faster, and send commands faster, the robot will start to become inaccurate and start kicking back errors, namely GRBL error 24 and error 2. These (as far as I can tell) are caused by sending commands to the robot too quickly, the commands stacking up in queue, and the robot panicking as it tries to get through all of them.
+
+    This will cause the robot to do random movements, become very inaccurate, and start kicking back errors over serial. The solution to this is to increase serialSendRecvDelay in the constructor for Robot, and if that fails, send commands slower with time.sleep()
+
+
+When typing, sometimes the robot will "miss" double keypresses, "fat-finger" keys, or be generally inaccurate.
+    - Pushing the robot faster sometimes means lowering the clearance height of taps (robot.clearance_height). This is the height of the stylus during standard moves, when it is not touching the screen. Lowering this value too much will cause the stylus to either not pick up fully, drag across the screen, or be too close to the screen, causing it to think that it is touching.
+
+    Raise the clearance height a few mm, it should resolve the issue.
