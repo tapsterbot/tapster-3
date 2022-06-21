@@ -2,7 +2,7 @@ import time
 import serial
 
 class Robot:
-    #PBMv3 Add-on Module Constants
+    #PBMv3 Add-on Module Constants (valid range: 100-2000)
     aPressed = 800
     aReleased = 2000
     bPressed = 800
