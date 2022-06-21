@@ -95,7 +95,7 @@ coordinatesT3Plus = {
     "!": (backslash[0] + 7*keyOffset, backslash[1], 1),
     "?": (backslash[0] + 8*keyOffset, backslash[1], 1),
     ".": (68, -112, 0),
-    ",": (-40, -114, 0),
+    ",": (-43, -114, 0),
     "shift": (-56, -102, 0),
     "back": (78, -72, 0),
     "numMenu": (-56, -114),
@@ -149,7 +149,7 @@ class Keyboard:
                     inNumMenu = True
                     self.pressKey(let)
                     if self.coordinates[let][2] == 2: inNumMenu = False
-                    if (len(self.coordinates[stringToType[i + 1]]) == 2 or self.coordinates[stringToType[i + 1]][2] == 0) and inNumMenu:
+                    if (len(self.coordinates[stringToType[i + 1].lower()]) == 2 or self.coordinates[stringToType[i + 1].lower()][2] == 0) and inNumMenu:
                         self.pressKey("numMenu") #if the next letter is not in the number menu, leave the number menu
                         inNumMenu = False
         
@@ -160,10 +160,7 @@ class Keyboard:
 
 #======================================#
 
-stringToType = "This is a string being typed on the Tapster T3!\n"
-stringToType = "The quick brown fox jumped over the lazy dog. \n"
-#stringToType = "qqwweerrttyyuuiiooppaassddffgghhjjkkllzzxxccvvbbnnmm"
-stringToType = "Guinness World Records has challenged me to type this sentence using one finger in the fastest time.\n"
+stringToType = "This is a string being typed on the Tapster T3+!\n"
 
 if __name__ == "__main__":
     if len(sys.argv) > 1: #take in the serial port name from the args
@@ -175,5 +172,11 @@ if __name__ == "__main__":
     bot = robot.Robot(PORT, -24, -34, False, 0.085) #set sendPause to 0.079 and printCoordinates to False for faster operation
     keyboard = Keyboard(bot, coordinatesT3Plus, 0)
 
-    for i in range(10):
-        keyboard.type(stringToType, True)
+    if len(sys.argv) > 2:
+        try: file = open(sys.argv[2], "r") #open a file of text to type
+        except FileNotFoundError:
+            print("The file you specified cannot be found. Please try again.")
+            raise SystemExit
+        stringToType = file.read()
+
+    keyboard.type(stringToType, True)
