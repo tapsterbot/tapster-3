@@ -169,7 +169,7 @@ if __name__ == "__main__":
         print("Please specify a port.")
         raise SystemExit
 
-    bot = robot.Robot(PORT, -22, -34, False, 0.09) #set sendPause to 0.079 and printCoordinates to False for faster operation
+    bot = robot.Robot(PORT, -22, -34, False, 0.09)
     keyboard = Keyboard(bot, coordinatesT3Plus, 0)
 
     if len(sys.argv) > 2:

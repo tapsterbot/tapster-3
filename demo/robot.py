@@ -76,7 +76,7 @@ class Robot:
             elif c == False: position += " C" + str(self.cReleased)
             else: position += " C" + str(c)
         if self.printCoordinates: print(position)
-        self.send("G1 " + position)
+        self.send("G0 " + position)
     
     def pbmPress(self, a = False, b = False, c = False, holdTime = 0.25):
         position = ""
@@ -88,6 +88,8 @@ class Robot:
         elif c == False: position += " C" + str(self.cReleased)
 
         if self.printCoordinates: print(position)
-        self.send("G1 " + position)
+        self.send("G0 " + position)
+        print("a")
         time.sleep(holdTime)
-        self.send(f"G1 A{self.aReleased} B{self.bReleased} C{self.cReleased}")
+        print("b")
+        self.send(f"G0 A{self.aReleased} B{self.bReleased} C{self.cReleased}")
