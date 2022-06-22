@@ -89,7 +89,5 @@ class Robot:
 
         if self.printCoordinates: print(position)
         self.send("G0 " + position)
-        print("a")
         time.sleep(holdTime)
-        print("b")
         self.send(f"G0 A{self.aReleased} B{self.bReleased} C{self.cReleased}")
