@@ -77,7 +77,7 @@ class Draw:
 
     def drawSVG(self, file, x1, y1, x2, y2, pickUpPen = True, feedRate = 5000, moveDelay = 0.25): #(x1, y1): bottom left corner ; (x2, y2): top right corner
         oldTapHeight = self.bot.tap_height
-        self.bot.tap_height = -20 #required for accuracy
+        self.bot.tap_height = -20.5 #required for accuracy
 
         # Instantiate a compiler, specifying the interface type and the speed at which the tool should move. pass_depth controls
         # how far down the tool moves after every pass. Set it to 0 if your machine does not support Z axis movement.
@@ -162,4 +162,4 @@ if __name__ == "__main__":
 
     #draw.drawSVG("bye.svg", -50, -60, 30, 60, 10000, 0)
     #draw.drawSVG("tapster.svg", -25, 10, 25, 60, 1500, 0.25)
-    #draw.bot.go(0, 65, 10)
+    draw.bot.go(0, 65, 10)

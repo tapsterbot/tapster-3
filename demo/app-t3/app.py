@@ -13,7 +13,7 @@ else:
     raise SystemExit
 
 bot = robot.Robot(PORT, -13, -25, False, 0.1)
-keyboard = Keyboard(bot, coordinatesT3, 0, 0.01)
+keyboard = Keyboard(bot, coordinatesT3, 0)
 
 bot.go(0, 0, 0)
 time.sleep(0.5)

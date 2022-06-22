@@ -1,11 +1,11 @@
 #Keyboard Demo
 
-#iPhone keyboard settings: All autocorrect and auto capitilization off. Caps lock disabled.
+#Tab S7 keyboard settings: Using Gboard rather than the default keyboard. All autocorrect and auto capitalization off.
 
-#T3 and iPhone XS Max program settings:
-#clearance_height = -17
-#tap_height = -25
-#serialSendRecvDelay = 0.079
+#T3+ and Samsung Galaxy Tab S7 program settings:
+#clearance_height = -22
+#tap_height = -34
+#serialSendRecvDelay = 0.09
 #printCoordinates = False
 #delayBetweenKeyPresses = 0
 
@@ -15,12 +15,13 @@ sys.path.append("..")
 import robot
 import time
 
-keyOffset = 6.8 #spacing between keys
-q = (-38, -30)
-a = (-34, -40)
-z = (-26, -50)
-one = (-36, -30)
-dash = (-36, -40)
+keyOffset = 13 #spacing between keys
+q = (-56, -73)
+a = (-50, -85)
+z = (-42, -101)
+one = (-58, -74)
+at = (-58, -90)
+backslash = (-44, -102)
 
 #Coordinate Dictionary Setup:
 # - Each entry is a key on the keyboard.
@@ -36,7 +37,7 @@ dash = (-36, -40)
 #NOTE: Use Option 3 only if you are going for maximum typing speed. Due to inconsistencies in keyboard behavior,
 #      it may not always work. Use Option 0 instead.
 
-coordinatesT3 = {
+coordinatesT3Plus = {
     "q": (q[0], q[1]),
     "w": (q[0] + 1*keyOffset, q[1]),
     "e": (q[0] + 2*keyOffset, q[1]),
@@ -74,25 +75,31 @@ coordinatesT3 = {
     "8": (one[0] + 7*keyOffset, one[1], 1),
     "9": (one[0] + 8*keyOffset, one[1], 1),
     "0": (one[0] + 9*keyOffset, one[1], 1),
-    "-": (dash[0], dash[1], 1),
-    "/": (dash[0] + 1*keyOffset, dash[1], 1),
-    ":": (dash[0] + 2*keyOffset, dash[1], 1),
-    ";": (dash[0] + 3*keyOffset, dash[1], 1),
-    "(": (dash[0] + 4*keyOffset, dash[1], 1),
-    ")": (dash[0] + 5*keyOffset, dash[1], 1),
-    "$": (dash[0] + 6*keyOffset, dash[1], 1),
-    "&": (dash[0] + 7*keyOffset, dash[1], 1),
-    "@": (dash[0] + 8*keyOffset, dash[1], 1),
-    "\"": (dash[0] + 9*keyOffset, dash[1], 1),
-    ".": (-26, -50, 1),               #backslash
-    ",": (-16, -50, 1),
-    "?": (-6, -50, 1),
-    "!": (4, -50, 1), #quotation mark
-    "\'": (14, -50, 2), #apostrophe
-    "shift": (-36, -50, 0),
-    "back": (24, -50, 0),
-    "numMenu": (-38, -60),
-    "\n": (20, -60, 3) #enter
+    "@": (at[0], at[1], 1),
+    "#": (at[0] + 1*keyOffset, at[1], 1),
+    "$": (at[0] + 2*keyOffset, at[1], 1),
+    "_": (at[0] + 3*keyOffset, at[1], 1),
+    "&": (at[0] + 4*keyOffset, at[1], 1),
+    "-": (at[0] + 5*keyOffset, at[1], 1),
+    "+": (at[0] + 6*keyOffset, at[1], 1),
+    "(": (at[0] + 7*keyOffset, at[1], 1),
+    ")": (at[0] + 8*keyOffset, at[1], 1),
+    "/": (at[0] + 9*keyOffset, at[1], 1),
+    "\\": (backslash[0], backslash[1], 1),               #backslash
+    "%": (backslash[0] + 1*keyOffset, backslash[1], 1),
+    "*": (backslash[0] + 2*keyOffset, backslash[1], 1),
+    "\"": (backslash[0] + 3*keyOffset, backslash[1], 1), #quotation mark
+    "\'": (backslash[0] + 4*keyOffset, backslash[1], 1), #apostrophe
+    ":": (backslash[0] + 5*keyOffset, backslash[1], 1),
+    ";": (backslash[0] + 6*keyOffset, backslash[1], 1),
+    "!": (backslash[0] + 7*keyOffset, backslash[1], 1),
+    "?": (backslash[0] + 8*keyOffset, backslash[1], 1),
+    ".": (68, -112, 0),
+    ",": (-43, -114, 0),
+    "shift": (-56, -102, 0),
+    "back": (78, -72, 0),
+    "numMenu": (-56, -114),
+    "\n": (80, -84, 3) #enter
 }
 
 class Keyboard:
@@ -162,8 +169,8 @@ if __name__ == "__main__":
         print("Please specify a port.")
         raise SystemExit
 
-    bot = robot.Robot(PORT, -22, -34, False, 0.09) #set sendPause to 0.079 and printCoordinates to False for faster operation
-    keyboard = Keyboard(bot, coordinatesT3, 0)
+    bot = robot.Robot(PORT, -22, -34, False, 0.09)
+    keyboard = Keyboard(bot, coordinatesT3Plus, 0)
 
     if len(sys.argv) > 2:
         try: file = open(sys.argv[2], "r") #open a file of text to type
@@ -172,4 +179,9 @@ if __name__ == "__main__":
             raise SystemExit
         stringToType = file.read()
 
-    keyboard.type(stringToType, True)
+    keyboard.setDelayBetweenKeyPresses(0.07)
+    keyboard.type("Hello! I'm a Tapster 3+ Robot.\n\n", False)
+    keyboard.setDelayBetweenKeyPresses(0)
+    keyboard.type("Watch how fast I can type...\n\n", False)
+    keyboard.setDelayBetweenKeyPresses(0)
+    keyboard.type("The quick brown fox jumps over the lazy dog. \n")

@@ -36,7 +36,7 @@ dash = (-36, -40)
 #NOTE: Use Option 3 only if you are going for maximum typing speed. Due to inconsistencies in keyboard behavior,
 #      it may not always work. Use Option 0 instead.
 
-coordinatesT3Plus = {
+coordinatesT3 = {
     "q": (q[0], q[1]),
     "w": (q[0] + 1*keyOffset, q[1]),
     "e": (q[0] + 2*keyOffset, q[1]),
@@ -163,7 +163,7 @@ if __name__ == "__main__":
         raise SystemExit
 
     bot = robot.Robot(PORT, -22, -34, False, 0.09) #set sendPause to 0.079 and printCoordinates to False for faster operation
-    keyboard = Keyboard(bot, coordinatesT3Plus, 0)
+    keyboard = Keyboard(bot, coordinatesT3, 0)
 
     if len(sys.argv) > 2:
         try: file = open(sys.argv[2], "r") #open a file of text to type
