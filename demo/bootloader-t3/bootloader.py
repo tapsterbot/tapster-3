@@ -13,9 +13,11 @@ else:
 bot = robot.Robot(PORT, -15, -22, False, 0.09)
 
 bot.pbmGo(True, False, True)
-time.sleep(1)
+time.sleep(5)
+bot.pbmGo(False, False, True)
+time.sleep(0.25)
 bot.pbmGo(False, False, False)
 
-for i in range(6): bot.pbmPress(False, False, True, 0.5)
+for i in range(5): bot.pbmPress(False, False, True, 0.5)
 
 bot.pbmPress(True)
