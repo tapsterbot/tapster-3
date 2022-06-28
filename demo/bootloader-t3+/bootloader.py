@@ -1,9 +1,3 @@
-import sys
-sys.path.append("..")
-
-import robot
-import time
-
 #---------------------------------------------------------------------------------------#
 #                          Bootloader Demo for Tapster T3+
 
@@ -15,6 +9,12 @@ import time
 # - Tablet is SHUT DOWN at the start of the demo.
 
 #---------------------------------------------------------------------------------------#
+
+import sys
+sys.path.append("..")
+
+import robot
+import time
 
 if len(sys.argv) > 1: #take in the serial port name from the args
     PORT = sys.argv[1]
