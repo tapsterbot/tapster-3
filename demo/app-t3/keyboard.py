@@ -1,6 +1,21 @@
-#Keyboard Demo
-
-#iPhone keyboard settings: All autocorrect and auto capitilization off. Caps lock disabled.
+###################################################################################################
+#
+#                                   Keyboard Demo for Tapster T3
+#                                    Device Used: iPhone XS Max
+#
+#                                          Requirements
+# - Notes app is open, phone is typing in the text box
+# - All autocorrect and autocapitalization off
+# - Caps Lock disabled
+# - Coordinates dictionary (below) is set correctly
+#
+#                                         Special Usage
+# - This demo contains the Keyboard class, which is portable to use with any device. The coordinates
+#   dictionary is the difference between typing on an iPhone, a tablet, or a Google Pixel. Set
+#   these coordinates accordingly.
+# - Optional argument: a filename in the working directory, which contains text to be typed.
+#
+###################################################################################################
 
 #T3 and iPhone XS Max program settings:
 #clearance_height = -17
@@ -110,7 +125,7 @@ class Keyboard:
     def setSerialSendRecvDelay(self, val): #Advanced users only, recommended value: 0.1
         self.bot.sendPause = val
 
-    def setDelayBetweenKeyPresses(self, val):
+    def setDelayBetweenKeyPresses(self, val): #A delay between each key press
         self.delayBetweenKeyPresses = val
     
     def setCoordinates(self, coordinates): #Params: coordinates: a Python dictionary, formatted as above, with the (x, y) coordinates of each key
@@ -119,7 +134,7 @@ class Keyboard:
     def pressKey(self, key):
         self.bot.tap(self.coordinates[key][0], self.coordinates[key][1], self.delayBetweenKeyPresses)
     
-    def type(self, stringToType, printData = True):
+    def type(self, stringToType, printData = True): #The main function. Takes in a string to type and types it. Optional: Prints typing data at the end of typing.
         self.bot.go(0, 0, 0)
         time.sleep(0.5)
         self.bot.go(self.coordinates[stringToType[0].lower()][0], self.coordinates[stringToType[0].lower()][1], self.bot.clearance_height + 3)
@@ -153,7 +168,7 @@ class Keyboard:
 
 #======================================#
 
-stringToType = "This is a string being typed on the Tapster T3+!\n"
+stringToType = "This is a string being typed on the Tapster T3!\n"
 
 if __name__ == "__main__":
     if len(sys.argv) > 1: #take in the serial port name from the args
@@ -162,7 +177,7 @@ if __name__ == "__main__":
         print("Please specify a port.")
         raise SystemExit
 
-    bot = robot.Robot(PORT, -22, -34, False, 0.09) #set sendPause to 0.079 and printCoordinates to False for faster operation
+    bot = robot.Robot(PORT, -17, -25, False, 0.079) #set sendPause to 0.079 and printCoordinates to False for faster operation
     keyboard = Keyboard(bot, coordinatesT3, 0)
 
     if len(sys.argv) > 2:

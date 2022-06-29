@@ -1,3 +1,23 @@
+###################################################################################################
+#
+#                              Shapes and Drawing Demo for Tapster T3
+#                                    Device Used: iPhone XS Max
+#
+#                                          Requirements
+# - The svgToGcode Python module
+# - The Simple Draw app (or any other drawing app, Autodesk Sketchbook for example)
+# - The phone has the drawing app open
+#
+#                                          Special Usage
+# - This demo contains the Draw class, which includes a wide variety of methods for drawing shapes,
+#   drawing from SVGs, and drawing curves. This class is portable to any device, and does not
+#   require any dictionaries of data as every point for drawing is specified in the method calls.
+# - The Draw.svgDraw() takes in an SVG from a program such as Inkscape, and converts it to robot
+#   movements. The file it takes in is specified in the *method call*, not in a command argument.
+#   It also must be in the working directory.
+#
+###################################################################################################
+
 import sys
 sys.path.append("..")
 
@@ -47,22 +67,22 @@ class Draw:
     def drawCircle(self, x, y, radius):
         self.drawParametricCurve(lambda t : radius*math.cos(t) + x, lambda t : radius*math.sin(t) + y, 0, 2*math.pi, 16)
     
-    def drawTriangle(self, x1, y1, x2, y2, x3, y3):
+    def drawTriangle(self, x1, y1, x2, y2, x3, y3): #Params: The 3 points of the triangle
         self.drawLine(x1, y1, x2, y2, False, 0.05)
         self.drawLine(x2, y2, x3, y3, False)
         self.drawLine(x3, y3, x1, y1, True)
 
-    def drawRectangle(self, x1, y1, x2, y2):
+    def drawRectangle(self, x1, y1, x2, y2): #Params: 2 siagonal corners, the bottom left and top right.
         self.drawLine(x1, y1, x2, y1, False, 0.05)
         self.drawLine(x2, y1, x2, y2, False)
         self.drawLine(x2, y2, x1, y2, False)
         self.drawLine(x1, y2, x1, y1, True)
 
     def drawSpiral(self, x, y, tEnd, radiusGrowthPerRev):
-        self.drawParametricCurve(lambda t : radiusGrowthPerRev*(t/(2*math.pi))*math.cos(t),
-                                 lambda t : radiusGrowthPerRev*(t/(2*math.pi))*math.sin(t), 0, tEnd, (tEnd/(2*math.pi))*16)
+        self.drawParametricCurve(lambda t : radiusGrowthPerRev*(t/(2*math.pi))*math.cos(t) + x,
+                                 lambda t : radiusGrowthPerRev*(t/(2*math.pi))*math.sin(t) + y, 0, tEnd, (tEnd/(2*math.pi))*16)
 
-    def drawStar(self, x, y, radius, rotation):
+    def drawStar(self, x, y, radius, rotation): #Params: (x, y) coordinates of the center, the radius of the star, and the rotation in radians
         starAngleConst = (2*math.pi)/5
         self.drawLine(radius*math.cos(math.pi/2 + rotation) + x, radius*math.sin(math.pi/2 + rotation) + y,
                       radius*math.cos(math.pi/2 + 2*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 2*starAngleConst + rotation) + y, False, 0.05)

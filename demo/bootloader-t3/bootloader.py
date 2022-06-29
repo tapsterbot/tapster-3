@@ -1,3 +1,16 @@
+###################################################################################################
+#
+#                                  Bootloader Demo for Tapster T3
+#                                  Device Used: Google Pixel 5a 5G
+#
+#                                          Requirements
+# - A Push Button Module (PBMv3)
+# - Developer settings are enabled
+# - OEM Unlocking is enabled
+# - The phone is shut down
+#
+###################################################################################################
+
 import sys
 sys.path.append("..")
 

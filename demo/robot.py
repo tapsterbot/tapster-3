@@ -1,3 +1,24 @@
+###################################################################################################
+#
+#                                Robot Class for All Tapster Robots
+#
+#                                          Requirements
+# - A Tapster Robot!
+# - A serial (USB) connection to the robot
+# - Know the port/port number of the robot (i.e. COM3, /dev/ttyUSB0, etc)
+#
+#                                             Usage
+# - Make a robot object
+# - When making the object, set the clearance_height to the height of the stylus when it is moving
+#   above the screen, and tap_height to the height of the stylus when it is touching the screen.
+# - If you want the coordinates sent to the robot to be printed out to terminal/stdout, set
+#   printCoordinates = True. Else set printCoordinates = False.
+# - Call the methods you need to move the robot, tap, push buttons on a Push Button Module...
+# - To send a command directly, without using a method, call Robot.send().
+#
+#
+###################################################################################################
+
 import time
 import serial
 

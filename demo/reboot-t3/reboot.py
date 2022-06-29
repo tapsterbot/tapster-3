@@ -1,3 +1,14 @@
+###################################################################################################
+#
+#                                    Reboot Demo for Tapster T3
+#                                  Device Used: Google Pixel 5a 5G
+#
+#                                          Requirements
+# - A Push Button Module (PBMv3)
+# - Phone is on the home screen
+#
+###################################################################################################
+
 import sys
 sys.path.append("..")
 

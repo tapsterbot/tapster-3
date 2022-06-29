@@ -1,3 +1,15 @@
+###################################################################################################
+#
+#                                    Reboot Demo for Tapster T3+
+#                                Device Used: Samsung Galaxy Tab S7
+#
+#                                          Requirements
+# - A Push Button Module (PBMv3)
+# - Tablet is on the home screen.
+# - Tablet is in landscape mode (It reboots into landscape, and this is not reconfigurable)
+#
+###################################################################################################
+
 import sys
 sys.path.append("..")
 

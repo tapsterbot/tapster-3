@@ -1,3 +1,15 @@
+###################################################################################################
+#
+#                                   App Demo for Tapster T3
+#                                 Device Used: iPhone XS Max
+#
+#                                       Requirements
+# - The Keyboard class
+# - Youtube App
+# - The phone is on the home screen
+#
+###################################################################################################
+
 import sys
 sys.path.append("..")
 
@@ -27,6 +39,7 @@ time.sleep(1)
 bot.tap(-6, 40)
 
 time.sleep(5.25)
+
 #Dance!
 for i in range(3):
     for t in range(16): #16 steps

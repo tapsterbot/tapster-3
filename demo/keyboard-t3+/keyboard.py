@@ -1,6 +1,21 @@
-#Keyboard Demo
-
-#Tab S7 keyboard settings: Using Gboard rather than the default keyboard. All autocorrect and auto capitalization off.
+###################################################################################################
+#
+#                                   Keyboard Demo for Tapster T3+
+#                                Device Used: Samsung Galaxy Tab S7
+#
+#                                          Requirements
+# - Using Gboard rather than the default Samsung keyboard
+# - Samsung Notes app is open, phone is typing in the text box
+# - All autocorrect and autocapitalization off
+# - Coordinates dictionary (below) is set correctly
+#
+#                                         Special Usage
+# - This demo contains the Keyboard class, which is portable to use with any device. The coordinates
+#   dictionary is the difference between typing on an iPhone, a tablet, or a Google Pixel. Set
+#   these coordinates accordingly.
+# - Optional argument: a filename in the working directory, which contains text to be typed.
+#
+###################################################################################################
 
 #T3+ and Samsung Galaxy Tab S7 program settings:
 #clearance_height = -22
@@ -117,7 +132,7 @@ class Keyboard:
     def setSerialSendRecvDelay(self, val): #Advanced users only, recommended value: 0.1
         self.bot.sendPause = val
 
-    def setDelayBetweenKeyPresses(self, val):
+    def setDelayBetweenKeyPresses(self, val): #A delay between each key press
         self.delayBetweenKeyPresses = val
     
     def setCoordinates(self, coordinates): #Params: coordinates: a Python dictionary, formatted as above, with the (x, y) coordinates of each key
@@ -126,7 +141,7 @@ class Keyboard:
     def pressKey(self, key):
         self.bot.tap(self.coordinates[key][0], self.coordinates[key][1], self.delayBetweenKeyPresses)
     
-    def type(self, stringToType, printData = True):
+    def type(self, stringToType, printData = True): #The main function. Takes in a string to type and types it. Optional: Prints typing data at the end of typing.
         self.bot.go(0, 0, 0)
         time.sleep(0.5)
         self.bot.go(self.coordinates[stringToType[0].lower()][0], self.coordinates[stringToType[0].lower()][1], self.bot.clearance_height + 3)

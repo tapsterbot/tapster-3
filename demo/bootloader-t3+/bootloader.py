@@ -1,14 +1,16 @@
-#---------------------------------------------------------------------------------------#
-#                          Bootloader Demo for Tapster T3+
-
-#Settings for Samsung Galaxy Tab S7:
-# - Developer mode enabled
-# - OEM Bootloader Unlocking enabled
-# - USB Debugging enabled
-
-# - Tablet is SHUT DOWN at the start of the demo.
-
-#---------------------------------------------------------------------------------------#
+###################################################################################################
+#
+#                                  Bootloader Demo for Tapster T3+
+#                                 Device Used: Samsung Galaxy Tab S7
+#
+#                                          Requirements
+# - Developer settings are enabled
+# - OEM Bootloader Unlocking is enabled
+# - USB Debugging is enabled
+# - A connection to a computer
+# - The tablet is shut down
+#
+###################################################################################################
 
 import sys
 sys.path.append("..")
