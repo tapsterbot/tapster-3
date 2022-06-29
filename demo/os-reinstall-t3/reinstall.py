@@ -62,7 +62,6 @@ Plug the device into the computer.
 Press enter when done.""")
 while input() != "": pass
 
-os.system("echo $PATH")
 os.system("fastboot flashing unlock")
 while input("\nConfirm the bootloader unlock on your device. Press enter when done.") != "": pass
 
