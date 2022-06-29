@@ -59,7 +59,6 @@ class Robot:
         self.send("G1 " + position + " Z" + str(self.tap_height))
         time.sleep(pause)
         self.send("G1 " + position + " Z" + str(self.clearance_height))
-        time.sleep(pause)
     
     def pbmGo(self, a = None, b = None, c = None):
         position = ""
