@@ -16,7 +16,6 @@
 # - Call the methods you need to move the robot, tap, push buttons on a Push Button Module...
 # - To send a command directly, without using a method, call Robot.send().
 #
-#
 ###################################################################################################
 
 import time
@@ -55,7 +54,7 @@ class Robot:
         if result != "ok":
             print(result)
 
-    def go(self, x = None,y = None, z = None, feedRate = None):
+    def go(self, x = None, y = None, z = None, feedRate = None):
         position = ""
         if x != None:
             position += " X" + str(x)
