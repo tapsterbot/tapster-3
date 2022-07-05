@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   inkscape:version="1.2 (1:1.2+202206011326+fc4e4096c5)"
+   sodipodi:docname="tapsterScript.svg"
+   id="svg5"
+   version="1.1"
+   viewBox="0 0 50 50"
+   height="50mm"
+   width="50mm"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="2.990248"
+     inkscape:cx="135.77469"
+     inkscape:cy="92.467248"
+     inkscape:window-width="1600"
+     inkscape:window-height="784"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       inkscape:label="Hershey Text"
+       style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round"
+       id="g5926"
+       transform="matrix(0,1.2212279,-1.2212279,0,54.636055,-1.0475054)">
+      <g
+         transform="translate(0,26.2712)"
+         id="g5924">
+        <path
+           d="m 346,472 h -62 l -64,32 -31,63 31,63 95,32 h 95 l 126,-32 h 94 l 63,32 M 536,630 472,410 410,220 346,94.5 284,31.5 220,0 H 158 L 94.5,31.5 63,94.5 V 158 l 31.5,31 H 158 l 62,-31"
+           style="stroke-width:0.04614in"
+           transform="scale(0.0141111,-0.0141111)"
+           id="path5910" />
+        <path
+           d="m 315,189 -31,63 -64,32 H 158 L 94.5,252 63,220 31.5,158 V 94.5 L 63,31.5 126,0 h 63 l 63,31.5 32,63 L 346,284 315,126 V 31.5 L 346,0 h 32 l 63,31.5 31,31.5 64,95"
+           style="stroke-width:0.04614in"
+           transform="matrix(0.0141111,0,0,-0.0141111,8.43844,0)"
+           id="path5912" />
+        <path
+           d="m 31.5,158 63,94 31.5,63 -31.5,-126 -189,-567 m 189,567 31.5,63 63,32 h 63 l 63,-32 31,-63 V 126 L 315,63 284,31.5 220,0 M 94.5,31.5 158,0 h 94 l 94,31.5 64,31.5 94,95"
+           style="stroke-width:0.04614in"
+           transform="matrix(0.0141111,0,0,-0.0141111,15.5504,0)"
+           id="path5914" />
+        <path
+           d="m 31.5,158 63,94 31.5,63 v -63 l 63,-94 31,-63.5 v -63 L 158,0 M 31.5,31.5 94.5,0 H 220 l 64,31.5 31,31.5 63,95"
+           style="stroke-width:0.04614in"
+           transform="matrix(0.0141111,0,0,-0.0141111,22.2109,0)"
+           id="path5916" />
+        <path
+           d="m 31.5,158 63,94 63.5,126 M 252,662 63,94.5 v -63 L 94.5,0 H 158 l 62,31.5 32,31.5 63,95 M 63,410 h 221"
+           style="stroke-width:0.04614in"
+           transform="matrix(0.0141111,0,0,-0.0141111,27.0933,0)"
+           id="path5918" />
+        <path
+           d="m 63,63 63,31.5 32,31.5 31,63 v 63 l -31,32 H 126 L 63,252 31.5,189 V 94.5 L 63,31.5 126,0 h 63 l 63,31.5 32,31.5 62,95"
+           style="stroke-width:0.04614in"
+           transform="matrix(0.0141111,0,0,-0.0141111,31.1009,0)"
+           id="path5920"
+           inkscape:label="path5920" />
+        <path
+           d="m 31.5,158 63,94 31.5,63 v -63 h 94 l 32,-32 V 158 L 220,63 V 31.5 L 252,0 h 32 l 62,31.5 32,31.5 63,95"
+           style="stroke-width:0.04614in"
+           transform="matrix(0.0141111,0,0,-0.0141111,35.5459,0)"
+           id="path5922" />
+      </g>
+    </g>
+  </g>
+</svg>

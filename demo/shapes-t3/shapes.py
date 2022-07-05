@@ -95,9 +95,18 @@ class Draw:
         self.drawLine(radius*math.cos(math.pi/2 + 3*starAngleConst + rotation) + x, radius*math.sin(math.pi/2 + 3*starAngleConst + rotation) + y,
                       radius*math.cos(math.pi/2 + rotation) + x, radius*math.sin(math.pi/2 + rotation) + y, True)
 
-    def drawSVG(self, file, x1, y1, x2, y2, pickUpPen = True, feedRate = 5000, moveDelay = 0.25): #(x1, y1): bottom left corner ; (x2, y2): top right corner
+    #            SVG Drawing Method
+    # Params:
+    # - x1, y1, x2, y2 : the coordinates for the 'box' to draw the svg in on the phone screen.
+    # - pickUpPen : a threshold for picking up the pen. This threshold is measured when the program encounters a command to pick up
+    #               the pen -- it is the distance between the current position of the robot and the position it will move to after
+    #               the pick-up command. If the distance is less than pickUpPen, the command will be ignored. Set to 0 to never pick it up.
+    # - feedRate : Feed rate override for this method only. Will run the svg drawer with that feed rate, and then reset to machine default (35000)
+    # - moveDelay : the delay in between each of the moves/points along the svg curves.
+    # - tapHeightOverride : changes the tap height for this method only, sometimes required for better accuracy. Resets at the end of the method.
+    def drawSVG(self, file, x1, y1, x2, y2, pickUpPen = 0, feedRate = 5000, moveDelay = 0.25, tapHeightOverride = None): #(x1, y1): bottom left corner ; (x2, y2): top right corner
         oldTapHeight = self.bot.tap_height
-        self.bot.tap_height = -20.5 #required for accuracy
+        if tapHeightOverride != None: self.bot.tap_height = tapHeightOverride #sometimes required for accuracy
 
         # Instantiate a compiler, specifying the interface type and the speed at which the tool should move. pass_depth controls
         # how far down the tool moves after every pass. Set it to 0 if your machine does not support Z axis movement.
@@ -123,15 +132,29 @@ class Draw:
                 if yVal > greatest[1]: greatest[1] = yVal
                 if xVal < least[0]: least[0] = xVal
                 if yVal < least[1]: least[1] = yVal
-
+        
         #calculate the scale fraction for the svg and the specified coordinates
         scale = 1
         if abs((x2-x1)/(greatest[0] - least[0])) < abs((y2 - y1)/(greatest[1] - least[1])): scale = abs((x2 - x1)/(greatest[0] - least[0]))
         else: scale = abs((y2 - y1)/(greatest[1] - least[1]))
 
         #go through the gcode lines, send commands to the robot
-        for line in lines:
-            if line[:2] == "M5" and pickUpPen: self.bot.go(None, None, self.bot.clearance_height) #gcode commands to start/stop the spindle/put the pen up/down
+        current = [1000, 1000] #keeps track of the current robot position
+        for a, line in enumerate(lines):
+            if line[:2] == "M5" and pickUpPen: #gcode commands to start/stop the spindle/put the pen up/down
+                if a == len(lines) - 1: #prevent exceptions
+                    self.bot.go(None, None, self.bot.clearance_height)
+                    break
+                line = lines[a + 1][:-2] + " "
+                coordinates = [0, 0] #(x, y)
+                for i in range(len(line)):
+                    if line[i] == 'X': coordinates[0] = float(line[i + 1:line.find(" ", i)]) #translate from string to float
+                    elif line[i] == 'Y': coordinates[1] = float(line[i + 1:line.find(" ", i)])
+                coordinates[0] = round((coordinates[0] - least[0])*scale + x1, 2)
+                coordinates[1] = round((coordinates[1] - least[1])*scale + y1, 2)
+
+                if math.dist(current, coordinates) > pickUpPen:
+                    self.bot.go(None, None, self.bot.clearance_height)
             elif line[:2] == "M3": self.bot.go(None, None, self.bot.tap_height)
             elif line[:3] == "G0 " or line[:3] == "G1 ":
                 line = line[:-2] + " "
@@ -140,10 +163,11 @@ class Draw:
                     if line[i] == 'X': coordinates[0] = float(line[i + 1:line.find(" ", i)]) #translate from string to float
                     elif line[i] == 'Y': coordinates[1] = float(line[i + 1:line.find(" ", i)])
                 
-                coordinates[0] = round((coordinates[0]*scale) - least[0] + x1, 2)
-                coordinates[1] = round((coordinates[1]*scale) - least[1] + y1, 2)
-                self.bot.go(coordinates[0], coordinates[1], None, feedRate) #note the slow feed rate, this is for improved accuracy
+                coordinates[0] = round((coordinates[0] - least[0])*scale + x1, 2)
+                coordinates[1] = round((coordinates[1] - least[1])*scale + y1, 2)
+                self.bot.go(coordinates[0], coordinates[1], None, feedRate) #note the slow default feed rate, this is for improved accuracy
                 time.sleep(moveDelay)
+                current = coordinates
         self.bot.tap_height = oldTapHeight #reset the tap height
         self.bot.send("G1 F35000")
 
@@ -161,7 +185,7 @@ if __name__ == "__main__":
     draw.bot.go(0, 0, 0)
     time.sleep(0.5)
 
-    draw.drawSVG("hello.svg", -40, -50, 40, 50, False, 10000, 0)
+    draw.drawSVG("hello.svg", -17, -75, 25, 65, True, 10000, 0, -20.5)
     #draw.drawLine(-20, -50, 20, -50)
     #draw.drawLine(-20, 50, 20, 50)
     #draw.drawRectangle(-20, -52, 20, -60)

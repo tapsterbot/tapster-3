@@ -130,3 +130,4 @@ dmypy.json
 
 ## Various settings
 *.DS_Store
+demo/shapes-t3/*.gcode
