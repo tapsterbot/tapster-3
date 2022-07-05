@@ -1,11 +1,11 @@
 ###################################################################################################
 #
-#                              Shapes and Drawing Demo for Tapster T3
-#                                    Device Used: iPhone XS Max
+#                              Shapes and Drawing Demo for Tapster T3+
+#                                    Device Used: Samsung Galaxy Tab S7
 #
 #                                          Requirements
 # - The svgToGcode Python module
-# - The Simple Draw app (or any other drawing app, Autodesk Sketchbook for example)
+# - The Samsung Notes app (or any other drawing app, i.e. Autodesk Sketchbook)
 # - The phone has the drawing app open
 #
 #                                          Special Usage
@@ -15,6 +15,11 @@
 # - The Draw.svgDraw() takes in an SVG from a program such as Inkscape, and converts it to robot
 #   movements. The file it takes in is specified in the *method call*, not in a command argument.
 #   It also must be in the working directory.
+#
+#                                              Note
+# - This file is not substantially different from the /shapes-t3/shapes.py file. The only changed
+#   values are in the constructor for the Draw object, to T3+ specific tap and clearance heights,
+#   and the coordinates for the bounding box in the call to Draw.drawSVG(). The Draw class is identical.
 #
 ###################################################################################################
 
@@ -181,31 +186,10 @@ if __name__ == "__main__":
         print("Please specify a port.")
         raise SystemExit
     
-    draw = Draw(robot.Robot(PORT, -15, -22, False, 0.1))
+    draw = Draw(robot.Robot(PORT, -24, -30, False, 0.09))
     draw.bot.go(0, 0, 0)
     time.sleep(0.5)
 
-    draw.drawSVG("hello.svg", -17, -75, 25, 65, 14, 10000, 0, -20.5)
-
-    #draw.drawLine(-20, -50, 20, -50)
-    #draw.drawLine(-20, 50, 20, 50)
-    #draw.drawRectangle(-20, -52, 20, -60)
-    #draw.drawRectangle(-20, 52, 20, 60)
-
-    #draw.bot.tap(-36, 60, 0.08, 0.06) #clear the screen
-
-    #draw.drawStar(0, 0, 20, math.pi/2)
-    #draw.drawCircle(0, 0, 20)
-    #draw.drawTriangle(-20, -30, 20, -30, 0, -50)
-    #draw.drawTriangle(-20, 30, 20, 30, 0, 50)
-
-    #draw.bot.tap(-36, 60, 0.08, 0.06)
-
-    #draw.drawSpiral(0, 0, 6*math.pi, 7.5)
-
-    #draw.bot.tap(-36, 60, 0.08, 0.06)
-
-    #draw.drawSVG("bye.svg", -50, -60, 30, 60, 10000, 0)
-    #draw.drawSVG("tapster.svg", -25, 10, 25, 60, 1500, 0.25)
+    draw.drawSVG("hello.svg", -60, -90, 45, 75, 14, 10000, 0, -30)
 
     draw.bot.go(0, 65, 10)
