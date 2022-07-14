@@ -23,3 +23,8 @@ calculator(bot, "c")
 calculator(bot, "12.5-8.5*64+37+4869*1.5-9/10000=")
 
 #computer vision-y stuff here
+
+# Notes:
+# - crop frame to just the output display
+# - pull text from the cropped frame
+# - evaluate against the intended output

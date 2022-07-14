@@ -10,3 +10,10 @@ When typing, sometimes the robot will "miss" double keypresses, "fat-finger" key
     - Pushing the robot faster sometimes means lowering the clearance height of taps (robot.clearance_height). This is the height of the stylus during standard moves, when it is not touching the screen. Lowering this value too much will cause the stylus to either not pick up fully, drag across the screen, or be too close to the screen, causing it to think that it is touching.
 
     Raise the clearance height a few mm, it should resolve the issue.
+
+OpenCV Template Matching Issues -- Bounding box in the right place, but not the right size.
+    - OpenCV looks at the dimensions (1920x1080, for example) of the template image to draw the box on top of the source. If the template image was not pulled from a crop of an image from the builtin camera, it can have a different resolution which will cause the recangle to not be the correct size.
+
+    - OpenCV, by default, parses the video feed at 640x480 resolution.
+
+    Take a picture with the builtin camera on your robot at 640x480 resolution, or take it at any resolution and then resize the image in a program like GIMP to 640x480. Alternatively, call cv2.resize() to resize the video feed to your preferred resolution, but this adds extra steps at runtime. Crop all of your template images from one 'master' image that matches the resolution of the video feed.
