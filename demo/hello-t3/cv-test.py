@@ -85,10 +85,10 @@ def preProcessImage2(frame):
     cv.imshow("after dilation", dilate)
     # perform erosion
     erode = cv.erode(dilate, None, iterations=1)
+
     erode = cv.bitwise_not(erode)
     frames.append(erode)
     if len(frames) > 5: frames.pop(0) #if frames holds more than the last 5 frames, remove the oldest one
-    
     return averageImages()
 
 results = []
@@ -125,7 +125,6 @@ clearImageBuffer(cam)
 while True:
     ret, frame = cam.read()
     frame = cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
-    #frame = frame[:, 60:415] #crop to get rid of extra space on the sides of frame, helps a bit with accuracy
     frame = scaleDownFrame(frame, "calc-screen.jpg")
     
     #frame = preProcessImage(frame)
