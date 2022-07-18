@@ -63,31 +63,39 @@ def preProcessImage2(frame):
     mask = cv.inRange(frame, np.array([0]), np.array([27])) #pull out the deepest blacks
     cv.imshow("mask", mask)
     frame = cv.bitwise_not(frame)
-    res = cv.bitwise_and(frame, frame, mask = mask)
-    cv.imshow("masked source", res)
-    for i in range(10): res = cv.morphologyEx(res, cv.MORPH_CLOSE, np.ones((4, 4), np.uint8))
-    cv.imshow("closing", res)
+    frame = cv.bitwise_and(frame, frame, mask = mask)
+    cv.imshow("masked source", frame)
 
-    # Blur the image
-    res = cv.GaussianBlur(res,(7,7), 0)
-    cv.imshow("after blur", res)
+    for i in range(10): frame = cv.morphologyEx(frame, cv.MORPH_CLOSE, np.ones((4, 4), np.uint8))
+    cv.imshow("closing", frame)
 
-    ret, res = cv.threshold(res, 65, 255, cv.THRESH_BINARY)
-    cv.imshow("after thresh", res)
-    # Edge detection
+    frame = cv.medianBlur(frame, 5)
+    cv.imshow("after blur", frame)
+
+    ret, frame = cv.threshold(frame, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+    cv.imshow("after thresh", frame)
+
+    # find contours
+    cnts = cv.findContours(frame.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    cnts = cnts[0]
+
+    # make an empty mask 
+    mask = np.ones(frame.shape[:2], dtype="uint8") * 255
+    for c in cnts:
+        # if the contour is not sufficiently large, ignore it
+        if cv.contourArea(c) < 100:
+            cv.drawContours(mask, [c], -1, 0, -1)
+            continue
     
-    #edged = cv.Canny(res, 100, 200)
-    #cv.imshow("after canny", edged)
-    edged = res
+    # Remove ignored contours
+    frame = cv.bitwise_and(frame.copy(), frame.copy(), mask = mask)
     
-    # Dilate it , number of iterations will depend on the image
-    dilate = cv.dilate(edged, np.ones((2, 2), np.uint8), iterations=1)
-    cv.imshow("after dilation", dilate)
-    # perform erosion
-    erode = cv.erode(dilate, None, iterations=1)
+    #for i in range(10): frame = cv.morphologyEx(frame, cv.MORPH_CLOSE, np.ones((4, 4), np.uint8))
+    #frame = cv.bilateralFilter(frame, 9 , 75, 75)
+    #frame = cv.GaussianBlur(frame, (5, 5), 0)
 
-    erode = cv.bitwise_not(erode)
-    frames.append(erode)
+    frame = cv.bitwise_not(frame)
+    frames.append(frame)
     if len(frames) > 5: frames.pop(0) #if frames holds more than the last 5 frames, remove the oldest one
     return averageImages()
 
