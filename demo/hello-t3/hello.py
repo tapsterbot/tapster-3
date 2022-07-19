@@ -1,7 +1,6 @@
 import sys
 sys.path.append("..")
 
-import math
 import time
 import robot
 from calc import calculator, strToCalc
@@ -20,7 +19,9 @@ bot = robot.Robot(PORT, -15, -23.5, False, 0.09)
 #target: 0.1134
 calculator(bot, "cc")
 calculator(bot, "1+1=")
-time.sleep(1)
+bot.go(0, 90, 53) #move the bot so the user can see
+time.sleep(2)
+
 calculator(bot, "c")
 calculator(bot, "27.0692+186.4*10/1.69420-126/10000=")
 
