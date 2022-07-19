@@ -44,15 +44,17 @@ class Robot:
         # Set speed
         self.send("G1 F35000")
 
-    def send(self, command, pause = None):
+    def send(self, command, pause = None, printOrReturn = 'p'):
         message = str.encode(command + '\n')
         self.serial.write(message)
         if pause != None: time.sleep(pause)
         else: time.sleep(self.sendPause)
+
         result = self.serial.read(self.serial.in_waiting)
         result = result.strip().decode('utf-8')
         if result != "ok":
-            print(result)
+            if printOrReturn == 'p': print(result)
+            else: return result
 
     def go(self, x = None, y = None, z = None, feedRate = None):
         position = ""

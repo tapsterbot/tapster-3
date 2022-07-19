@@ -1,0 +1,28 @@
+goal: no hard coded coordinates.
+
+DO THIS FIRST!
+     VVV
+
+sub-goal: image --> bot coordinates, where you can click in a window and the bot goes to tap there
+ - take in image
+ - de-fish-eye
+ - calibration
+    - click on a point on the image
+    - use arrow keys to guide robot there
+    - hit enter to record position
+    - repeat for 3-4(?) total points
+ - profit
+ - recorder mode? (dumps to .gcode file)
+
+sub-goal 2: image --> tesseract recognition --> coordinates
+ - take in image
+ - de-fish-eye
+ - clean, pre process
+ - note coordinates of ROIs?
+ - tesseract-ify, find the "order" of the ROIs
+ - map the tesseract output to the image itself
+ - calibration (see above)
+ - profit?
+
+
+
