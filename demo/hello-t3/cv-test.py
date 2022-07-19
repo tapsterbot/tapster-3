@@ -30,7 +30,7 @@ def scaleDownFrame(frame, templatePath):
     min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
     x, y = max_loc
     h, w = template.shape
-    cv.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 3)
+    #cv.rectangle(frame, (x, y), (x+w, y+h), (255, 0, 0), 3)
     return frame[y:y + h, x:x + w]
 
 frames = []
@@ -60,13 +60,13 @@ def preProcessImage(frame):
 
 def preProcessImage2(frame):
     global frames
-    mask = cv.inRange(frame, np.array([0]), np.array([27])) #pull out the deepest blacks
+    mask = cv.inRange(frame, np.array([0]), np.array([45])) #pull out the deepest blacks
     cv.imshow("mask", mask)
     frame = cv.bitwise_not(frame)
     frame = cv.bitwise_and(frame, frame, mask = mask)
     cv.imshow("masked source", frame)
 
-    for i in range(10): frame = cv.morphologyEx(frame, cv.MORPH_CLOSE, np.ones((4, 4), np.uint8))
+    frame = cv.morphologyEx(frame, cv.MORPH_CLOSE, np.ones((4, 4), np.uint8))
     cv.imshow("closing", frame)
 
     frame = cv.medianBlur(frame, 5)
@@ -89,15 +89,65 @@ def preProcessImage2(frame):
     
     # Remove ignored contours
     frame = cv.bitwise_and(frame.copy(), frame.copy(), mask = mask)
-    
-    #for i in range(10): frame = cv.morphologyEx(frame, cv.MORPH_CLOSE, np.ones((4, 4), np.uint8))
-    #frame = cv.bilateralFilter(frame, 9 , 75, 75)
-    #frame = cv.GaussianBlur(frame, (5, 5), 0)
+
+    #newimage = frame
+    #newimage = cv.dilate(newimage,None, iterations=3)
+    #newimage = cv.erode(newimage,None, iterations=3)
+    #ret,newimage = cv.threshold(newimage, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+    #frame = newimage
 
     frame = cv.bitwise_not(frame)
     frames.append(frame)
     if len(frames) > 5: frames.pop(0) #if frames holds more than the last 5 frames, remove the oldest one
     return averageImages()
+
+def preProcessImage3(frame):
+    lower_red = np.array([0])
+    upper_red = np.array([75])
+
+    # Here we are defining range of bluecolor in HSV
+    # This creates a mask of white coloured 
+    # objects found in the frame.
+    mask = cv.inRange(frame, lower_red, upper_red)
+
+    # The bitwise and of the frame and mask is done so 
+    # that only the blue coloured objects are highlighted 
+    # and stored in res
+    frame = cv.bitwise_not(frame)
+    res = cv.bitwise_and(frame,frame, mask= mask)
+    # Blur the image
+    res = cv.GaussianBlur(res,(13,13), 0)
+    cv.imshow("blurred", res)
+    # Edge detection
+    edged = cv.Canny(res, 100, 200)
+    # Dilate it , number of iterations will depend on the image
+    dilate = cv.dilate(edged, None, iterations=4)
+    # perform erosion
+    erode = cv.erode(dilate, None, iterations=4)
+    cv.imshow("eroded", erode)
+    # make an empty mask 
+    mask2 = np.ones(frame.shape[:2], dtype="uint8") * 255
+
+    # find contours
+    cnts = cv.findContours(erode.copy(), cv.RETR_EXTERNAL,cv.CHAIN_APPROX_SIMPLE)
+    cnts = cnts[0]
+
+    orig = frame.copy()
+    for c in cnts:
+        # if the contour is not sufficiently large, ignore it
+        if cv.contourArea(c) < 400:
+            cv.drawContours(mask2, [c], -1, 0, -1)
+            continue
+        
+    # Remove ignored contours
+    newimage = cv.bitwise_and(erode.copy(), dilate.copy(), mask=mask2)
+    cv.imshow("contoured", newimage)
+    # Again perform dilation and erosion
+    newimage = cv.dilate(newimage,None, iterations=7)
+    newimage = cv.erode(newimage,None, iterations=5)
+    ret,newimage = cv.threshold(newimage, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+    return newimage
+
 
 results = []
 def processText(frame):
@@ -134,6 +184,7 @@ while True:
     ret, frame = cam.read()
     frame = cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
     frame = scaleDownFrame(frame, "calc-screen.jpg")
+    frame = frame[20:frame.shape[0] - 25, 18:frame.shape[1] - 19]
     
     #frame = preProcessImage(frame)
     frame = preProcessImage2(frame)

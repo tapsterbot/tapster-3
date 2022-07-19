@@ -5,12 +5,14 @@ import numpy as np
 import imutils
 import pytesseract
 
+frame = cv2.imread("lcd2.png")
+
 # Webcamera no 0 is used to capture the frames
-cap = cv2.VideoCapture(0) 
+#cap = cv2.VideoCapture(0) 
  
 # This drives the program into an infinite loop.
 # Captures the live stream frame-by-frame
-_, frame = cap.read() 
+#_, frame = cap.read() 
 # Converts images from BGR to HSV
 hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 lower_red = np.array([0,0,0])
@@ -53,7 +55,7 @@ newimage = cv2.bitwise_and(erode.copy(), dilate.copy(), mask=mask2)
 # Again perform dilation and erosion
 newimage = cv2.dilate(newimage,None, iterations=7)
 newimage = cv2.erode(newimage,None, iterations=5)
-ret,newimage = cv2.threshold(newimage,0,255,cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+ret,newimage = cv2.threshold(newimage, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
 
 # Tesseract OCR
 temp = pytesseract.image_to_string(newimage)
@@ -62,7 +64,7 @@ temp = pytesseract.image_to_string(newimage)
 #new = temp[0] + temp[1] + "." + temp[2]
 
 # Write results on the image
-#cv2.putText(frame, new, (50,100), cv2.FONT_HERSHEY_SIMPLEX, 1.4, (0,255,255), 2)
+cv2.putText(frame, temp, (50,100), cv2.FONT_HERSHEY_SIMPLEX, 1.4, (0,255,255), 2)
 
 
 # Show the output
