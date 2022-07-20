@@ -132,3 +132,4 @@ dmypy.json
 *.DS_Store
 demo/shapes-t3/*.gcode
 demo/shapes-t3+/*.gcode
+demo/hello-no-coordinates-t3/calib-images/*.png

@@ -4,7 +4,7 @@ sys.path.append("..")
 import time
 import robot
 from calc import calculator, strToCalc
-from cv import checkAnswer
+from checkAnswer import checkAnswer
 
 #args: python3 hello.py [robotPort] [cameraPort]
 
