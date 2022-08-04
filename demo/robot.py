@@ -30,9 +30,9 @@ class Robot:
     cPressed = 800
     cReleased = 2000
 
-    #Paybot Add-on Module Constants
-    inserted = 1000
-    removed = 2000
+    #Paybot Add-on Module Constants (valid range: 0-2000)
+    inserted = 800
+    removed = 1900
 
     def __init__(self, port, clearance_height = 0, tap_height = 0, printCoordinates = True, sendPause = 0.1):
         self.clearance_height = clearance_height
@@ -134,7 +134,7 @@ class Robot:
         if self.printCoordinates: print(position)
         self.send("G0 " + position)
     
-    def paybotInsert(self, a = False, b = False, c = False, holdTime = 0.25):
+    def paybotInsert(self, a = False, b = False, c = False, holdTime = 0.5):
         position = ""
         if a == True: position += " A" + str(self.inserted)
         elif a == False: position += " A" + str(self.removed)
