@@ -1,11 +1,27 @@
+###################################################################################################
+#
+#                                             cv.py
+#              --Utilities and helpful functions for using OpenCV and Tesseract OCR--
+#
+#                                          Requirements
+# - Read README.md and follow the installation instructions for:
+#    - OpenCV 4.x
+#    - Tesseract and pytesseract
+#    - imutils
+#    - Miscellaneous Python dependencies required for computer vision
+#
+#                                             Usage
+# - This file is NOT meant for standalone use, it is meant as a part of the hello-t3 demo. All
+#   functions will work as long as dependencies are met, and may be copied elsewhere, but they are
+#   not packaged to be portable. See ../hello-no-coordinates-t3/??? for a portable version.
+#
+###################################################################################################
+
 import sys
 import os
-import math
 import statistics as stats
-import time
 import cv2 as cv
 import pytesseract
-import imutils
 import numpy as np
 
 frames = []

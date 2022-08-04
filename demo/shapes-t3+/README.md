@@ -10,3 +10,6 @@
     - If you get an error message, you are trying to convert a piece of text that has already been converted. Rewrite the text in a new text box, and then reopen Hershey Text and retry.
 - Save the SVG to this directory.
 - Run the Draw.drawSVG() method as normal.
+
+## Credits:
+Thank you to PadLex on GitHub for making the SVG to Gcode converter used for this project, and the sample code used in svgToGcode.py. Check out his project [here](https://github.com/PadLex/SvgToGcode)

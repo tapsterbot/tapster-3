@@ -1,3 +1,13 @@
+###################################################################################################
+#
+#                                             calc.py
+#                 --Driver functions for using the 4 function calculator and Tapster 3--
+#
+#                                             Usage
+# - This file is NOT meant for standalone use, it is meant as a part of the hello-t3 demo.
+#
+###################################################################################################
+
 def calculator(bot, val): #val: a string of values to type on the calculator (i.e. "1+1=")
     for i in val:
         match i:
