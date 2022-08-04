@@ -1,0 +1,13 @@
+organization notes for next week:
+
+tl;dr - this entire directory needs to be repackaged into nice sensible files, junk needs to be deleted,
+        and stuff needs to be cleaned out before I merge
+
+
+end goal 1: make the backend stuff for the controller app
+end goal 2: have cv and tesseract pick out buttons and be able to press them off of an image
+
+important functions:
+- 
+
+config files:

@@ -19,7 +19,7 @@ def checkAnswer(val): #the main function to check the outputted result on the ca
         frame = cvu.scaleDownFrame(frame, "calc-screen.jpg") #apply template matching and crop
         frame = frame[20:frame.shape[0] - 25, 18:frame.shape[1] - 19] #remove edges (crop again)
         
-        frame = cvu.preProcessFrame(frame, 45)
+        frame = cvu.preProcessFrame(frame, [0, 45], True)
 
         cv.imshow("Frame", frame)
         if cv.waitKey(1) == ord('q'): #REQUIRED LINE

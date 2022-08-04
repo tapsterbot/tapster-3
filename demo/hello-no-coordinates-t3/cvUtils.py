@@ -40,9 +40,9 @@ class cvUtils:
         h, w = template.shape
         return frame[y:y + h, x:x + w] #crop frame to the size of the template image
 
-    def preProcessFrame(self, frame, blackLevel):
-        mask = cv.inRange(frame, np.array([0]), np.array([blackLevel])) #pull out the deepest blacks
-        frame = cv.bitwise_not(frame) #invert input frame so text is white -- required for the mask to work correctly
+    def preProcessFrame(self, frame, blackRange, invertSrc):
+        mask = cv.inRange(frame, np.array([blackRange[0]]), np.array([blackRange[1]])) #pull out the deepest blacks
+        if invertSrc: frame = cv.bitwise_not(frame) #invert input frame so text is white -- required for the mask to work correctly
         frame = cv.bitwise_and(frame, frame, mask = mask) #apply mask
 
         frame = cv.morphologyEx(frame, cv.MORPH_CLOSE, np.ones((4, 4), np.uint8)) #close holes
@@ -66,7 +66,7 @@ class cvUtils:
         # Remove ignored contours
         frame = cv.bitwise_and(frame.copy(), frame.copy(), mask = mask)
 
-        frame = cv.bitwise_not(frame) #invert frame to make black text on white background (rather than white on black) -- tesseract 4.0.0+ requires this
+        if invertSrc: frame = cv.bitwise_not(frame) #invert frame to make black text on white background (rather than white on black) -- tesseract 4.0.0+ requires this
         self.frames.append(frame)
         return self.addImages(5) #add together the last 5 frames, helps with noise and inconsistencies in the image
 
