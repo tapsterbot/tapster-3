@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                             Hello/Unboxing Experience for Tapster T3
+#                             Hello/Unboxing Experience for Tapster 3
 #                                Device Used: 4-Function Calculator
 #
 #                                          Requirements

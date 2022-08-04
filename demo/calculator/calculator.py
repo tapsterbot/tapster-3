@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                                  Calculator Demo for Tapster T3
+#                                  Calculator Demo for Tapster 3
 #                                   Device Used: Google Pixel 4a
 #
 #                                          Requirements

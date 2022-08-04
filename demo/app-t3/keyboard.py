@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                                   Keyboard Demo for Tapster T3
+#                                   Keyboard Demo for Tapster 3
 #                                    Device Used: iPhone XS Max
 #
 #                                          Requirements

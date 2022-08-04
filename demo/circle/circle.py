@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                                Circle Movement Demo for Tapster T3/T3+
+#                                Circle Movement Demo for Tapster 3/3+
 #                                        Device Used: Any
 #
 #                                          Requirements

@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                              Shapes and Drawing Demo for Tapster T3
+#                              Shapes and Drawing Demo for Tapster 3
 #                                    Device Used: iPhone XS Max
 #
 #                                          Requirements

@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                                  Bootloader Demo for Tapster T3+
+#                                  Bootloader Demo for Tapster 3+
 #                                 Device Used: Samsung Galaxy Tab S7
 #
 #                                          Requirements
@@ -24,7 +24,7 @@ else:
     print("Please specify a port.")
     raise SystemExit
 
-bot = robot.Robot(PORT, -15, -22, False, 0.09)
+bot = robot.Robot(PORT, -22, -34, False, 0.09) #settings for T3+
 
 bot.pbmGo(False, True, True)
 

@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                                  Bootloader Demo for Tapster T3
+#                                  Bootloader Demo for Tapster 3
 #                                  Device Used: Google Pixel 5a 5G
 #
 #                                          Requirements

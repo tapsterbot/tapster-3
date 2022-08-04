@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                                   Keyboard Demo for Tapster T3+
+#                                   Keyboard Demo for Tapster 3+
 #                                Device Used: Samsung Galaxy Tab S7
 #
 #                                          Requirements

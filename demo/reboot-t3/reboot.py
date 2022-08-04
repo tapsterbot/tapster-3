@@ -1,6 +1,6 @@
 ###################################################################################################
 #
-#                                    Reboot Demo for Tapster T3
+#                                    Reboot Demo for Tapster 3
 #                                  Device Used: Google Pixel 5a 5G
 #
 #                                          Requirements
