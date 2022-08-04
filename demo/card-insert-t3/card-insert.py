@@ -1,7 +1,7 @@
 ###################################################################################################
 #
-#                                 Card Insert Demo for Tapster T3
-#                                  Device Used: ????
+#                                 Card Insert Demo for Tapster 3
+#                                     Device Used: PAX A920
 #
 #                                          Requirements
 # - A Paybot Add-on Module, with a card mounted
@@ -22,8 +22,9 @@ else:
 
 bot = robot.Robot(PORT, -17, -25, False, 0.079) #set sendPause to 0.079 and printCoordinates to False for faster operation
 
+bot.inserted = 790 #device-specific rotation values for the Paybot module. change these to work with your device.
+bot.removed = 1900
+
 for i in range(3): #repeat 3 times
-    bot.paybotInsert(True)
-    time.sleep(1.5)
-    bot.paybotInsert(False)
+    bot.paybotInsert(True, None, None, 1.5)
     time.sleep(1.5)
