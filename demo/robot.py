@@ -30,6 +30,10 @@ class Robot:
     cPressed = 800
     cReleased = 2000
 
+    #Paybot Add-on Module Constants
+    inserted = 1000
+    removed = 2000
+
     def __init__(self, port, clearance_height = 0, tap_height = 0, printCoordinates = True, sendPause = 0.1):
         self.clearance_height = clearance_height
         self.tap_height = tap_height
@@ -112,3 +116,34 @@ class Robot:
         self.send("G0 " + position)
         time.sleep(holdTime)
         self.send(f"G0 A{self.aReleased} B{self.bReleased} C{self.cReleased}")
+
+    def paybotGo(self, a = None, b = None, c = None):
+        position = ""
+        if a != None:
+            if a == True: position += " A" + str(self.inserted)
+            elif a == False: position += " A" + str(self.removed)
+            else: position += " A" + str(a)
+        if b != None:
+            if b == True: position += " B" + str(self.inserted)
+            elif b == False: position += " B" + str(self.removed)
+            else: position += " B" + str(b)
+        if c != None:
+            if c == True: position += " C" + str(self.inserted)
+            elif c == False: position += " C" + str(self.removed)
+            else: position += " C" + str(c)
+        if self.printCoordinates: print(position)
+        self.send("G0 " + position)
+    
+    def paybotInsert(self, a = False, b = False, c = False, holdTime = 0.25):
+        position = ""
+        if a == True: position += " A" + str(self.inserted)
+        elif a == False: position += " A" + str(self.removed)
+        if b == True: position += " B" + str(self.inserted)
+        elif b == False: position += " B" + str(self.removed)
+        if c == True: position += " C" + str(self.inserted)
+        elif c == False: position += " C" + str(self.removed)
+
+        if self.printCoordinates: print(position)
+        self.send("G0 " + position)
+        time.sleep(holdTime)
+        self.send(f"G0 A{self.removed} B{self.removed} C{self.removed}")

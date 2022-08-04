@@ -105,7 +105,7 @@ def evalText(numResults):
 def checkAnswer(val): #the main function to check the outputted result on the calculator
     cam = cv.VideoCapture(int(sys.argv[2]))
     if not cam.isOpened():
-        print("Cannot open camera, make sure it is connected to the computer.")
+        print("Cannot open camera, make sure it is connected to the computer or try a different port name.")
         exit()
     
     clearImageBuffer(cam)
