@@ -10,37 +10,36 @@ import numpy as np
 from cvUtils import cvUtils
 import json
 
-def pullCoordinates():
-    pass
+def transformCoordinates(coordsToTransform, dataFile = "coordinateData.json"): #transforms pixel coordinates in the video feed, returns robot coordinates
+    with open(dataFile, "r") as file: coordinates = json.load(file)
+    #print(coordinates)
 
-def transformCoordinates(imgCoordinates): #transforms pixel coordinates in the video feed, returns robot coordinates
-    with open("coordinateData.json", "r") as file: coordinates = json.load(file)
-    print(coordinates)
+    p = 1 #point b, used for distance calculations
     
-    for i in range(len(coordinates)): coordinates[i][1][1] = coordinates[i][1][1]*-1 #flip over x axis
-    print(coordinates)
-    translation = (coordinates[1][1][0] - coordinates[1][0][0], coordinates[1][1][1] - coordinates[1][0][1])
-    print(translation)
-    
-    for i in range(len(coordinates)): #translate the pixel coordinates so point [0] lines up on both coordinate systems
-        coordinates[i][1][0] -= translation[0]
-        coordinates[i][1][1] -= translation[1]
+    #Points, top to bottom: a, b, c
+    #Deltas: Δab, Δbc, Δac
+    #Note: All points on the calibration stick are on x = -2 (robot space), so this ignores the x coordinate altogether
+    robotDeltas = (coordinates[0][0][1] - coordinates[1][0][1], coordinates[1][0][1] - coordinates[2][0][1], coordinates[0][0][1] - coordinates[2][0][1])
+    camDeltas = (coordinates[0][1][1] - coordinates[1][1][1], coordinates[1][1][1] - coordinates[2][1][1], coordinates[0][1][1] - coordinates[2][1][1])
+    print(robotDeltas)
+    print(camDeltas)
 
-    print(coordinates)
+    #The ratio between the distances in "robot space" and in "camera space"
+    scaleFactor = stats.mean((robotDeltas[0]/camDeltas[0], robotDeltas[1]/camDeltas[1], robotDeltas[2]/camDeltas[2]))
+    print(scaleFactor)
 
-    scaling = (stats.mean((coordinates[0][0][0], coordinates[2][0][0]))/stats.mean((coordinates[0][1][0], coordinates[2][1][0])), 
-               stats.mean((coordinates[0][0][1], coordinates[2][0][1]))/stats.mean((coordinates[0][1][1], coordinates[2][1][1])))
-    
-    coordinates[0][1][0] = coordinates[0][1][0]*scaling[0]
-    coordinates[0][1][1] = coordinates[0][1][1]*scaling[1]
-    coordinates[2][1][0] = coordinates[2][1][0]*scaling[0]
-    coordinates[2][1][1] = coordinates[2][1][1]*scaling[1]
+    #The distance between coordsToTransform and a known point (a, b, c) in camera space
+    #Only utilizes one point (b) for now, but it can be changed to use all 3 for (likely) greater accuracy
+    toTransformDelta = [coordsToTransform[0] - coordinates[p][1][0], coordsToTransform[1] - coordinates[p][1][1]]
+    print(toTransformDelta)
 
-    print(scaling)
-    print(coordinates)
+    #Scale the distances by the scale factor
+    toTransformDelta = [i*scaleFactor for i in toTransformDelta]
+    print(toTransformDelta)
 
-    #imgCoordinates[1] = imgCoordinates[1]*-1
-
+    #Add the scaled distances to the "robot space" coords of point b to get a resulting coordinate in robot space
+    #Note: Inverting the y fixed a random issue. Don't know why, but that -1 matters.
+    return (coordinates[p][0][0] + toTransformDelta[0], -1*(coordinates[p][0][1] + toTransformDelta[1]))
 
 def calibrateCamFeed(bot, cam):
     cvu = cvUtils()
@@ -75,7 +74,3 @@ def calibrateCamFeed(bot, cam):
 
     cam.release()
     cv.destroyAllWindows()
-
-
-
-transformCoordinates(None)
