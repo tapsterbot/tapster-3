@@ -47,6 +47,8 @@ def calibrateCamFeed(bot, cam):
 
     ret, frame = cam.read()
 
+    #Fix fisheye calibration, then add this back
+    
     #if not os.path.exists("calibData.json"):
     #    print("Calibration data does not exist. Running fisheye distortion calibrator...")
     #    cvu.calibFishEyeRemover("./calib-images/*", "calibData.json", False)
@@ -74,3 +76,22 @@ def calibrateCamFeed(bot, cam):
 
     cam.release()
     cv.destroyAllWindows()
+
+def findButtons(frame, color, centerCoords = False): #returns a 2d list of buttons with their x, y loc and "value", i.e. [["skip", 10, 20], ...]
+    #pseudocode:
+    """
+    apply a mask to the image to get rid of everything but [color]
+    clean image, get rid of non-rectangular things (likely not buttons)
+    copy image, display this version
+    find contours, I guess? pick out each of the ROIs (buttons), split out into individual "frames"
+    clean each individual frame, make each one BLACK ON WHITE for tesseract
+    run through tesseract, adding coords from original image and button text to list
+    return list
+
+    the user can do whatever they want with the button coordinate and name data, probably
+    run it through transformCoordinates() and run the robot to it.
+
+    if centerCoords = True, set the coordinates = the (x, y) of the CENTER of the button.
+    else set to top left corner (or whatever the contours alg picks out)
+    """
+    pass
