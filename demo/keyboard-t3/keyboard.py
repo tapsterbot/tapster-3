@@ -13,7 +13,8 @@
 # - This demo contains the Keyboard class, which is portable to use with any device. The coordinates
 #   dictionary is the difference between typing on an iPhone, a tablet, or a Google Pixel. Set
 #   these coordinates accordingly.
-# - Optional argument: a filename in the working directory, which contains text to be typed.
+# - Optional arguments:
+#    - a filename in the working directory, which contains text to be typed.
 #
 ###################################################################################################
 
@@ -30,12 +31,12 @@ sys.path.append("..")
 import robot
 import time
 
-keyOffset = 6.8 #spacing between keys
-q = (-38, -30)
-a = (-34, -40)
-z = (-26, -50)
-one = (-36, -30)
-dash = (-36, -40)
+keyOffset = 7 #spacing between keys
+q = (-35, -31)
+a = (-31, -41)
+z = (-23, -51)
+one = (-35, -31)
+dash = (-35, -41)
 
 #Coordinate Dictionary Setup:
 # - Each entry is a key on the keyboard.
@@ -78,7 +79,7 @@ coordinatesT3 = {
     "b": (z[0] + 4*keyOffset, z[1]),
     "n": (z[0] + 5*keyOffset, z[1]),
     "m": (z[0] + 6*keyOffset, z[1]),
-    " ": (0, -114, 3),
+    " ": (0, -61, 3),
     "1": (one[0], one[1], 1),
     "2": (one[0] + 1*keyOffset, one[1], 1),
     "3": (one[0] + 2*keyOffset, one[1], 1),
@@ -99,14 +100,14 @@ coordinatesT3 = {
     "&": (dash[0] + 7*keyOffset, dash[1], 1),
     "@": (dash[0] + 8*keyOffset, dash[1], 1),
     "\"": (dash[0] + 9*keyOffset, dash[1], 1),
-    ".": (-26, -50, 1),               #backslash
+    ".": (-26, -50, 1),
     ",": (-16, -50, 1),
     "?": (-6, -50, 1),
     "!": (4, -50, 1), #quotation mark
     "\'": (14, -50, 2), #apostrophe
     "shift": (-36, -50, 0),
     "back": (24, -50, 0),
-    "numMenu": (-38, -60),
+    "numMenu": (-34, -59),
     "\n": (20, -60, 3) #enter
 }
 
@@ -157,7 +158,7 @@ class Keyboard:
                     inNumMenu = True
                     self.pressKey(let)
                     if self.coordinates[let][2] == 2: inNumMenu = False
-                    if (len(self.coordinates[stringToType[i + 1].lower()]) == 2 or self.coordinates[stringToType[i + 1].lower()][2] == 0) and inNumMenu:
+                    if (i == len(stringToType) - 1 or len(self.coordinates[stringToType[i + 1].lower()]) == 2 or self.coordinates[stringToType[i + 1].lower()][2] == 0) and inNumMenu:
                         self.pressKey("numMenu") #if the next letter is not in the number menu, leave the number menu
                         inNumMenu = False
         
@@ -169,6 +170,9 @@ class Keyboard:
 #======================================#
 
 stringToType = "This is a string being typed on the Tapster T3!\n"
+stringToType = "qqwweerrttyyuuiiooppaassddffgghhjjkkllzzxxccvvbbnnmm"
+stringToType = "The quick brown fox jumped over the lazy dog."
+stringToType = "Guinness World Records has challenged me to type this sentence using one finger in the fastest time."
 
 if __name__ == "__main__":
     if len(sys.argv) > 1: #take in the serial port name from the args
@@ -177,7 +181,8 @@ if __name__ == "__main__":
         print("Please specify a port.")
         raise SystemExit
 
-    bot = robot.Robot(PORT, -17, -25, False, 0.079) #set sendPause to 0.079 and printCoordinates to False for faster operation
+    #bot = robot.Robot(PORT, -17, -25, False, 0.079) #set sendPause to 0.079 and printCoordinates to False for faster operation
+    bot = robot.Robot(PORT, -26, -37, False, 0.079)
     keyboard = Keyboard(bot, coordinatesT3, 0)
 
     if len(sys.argv) > 2:
