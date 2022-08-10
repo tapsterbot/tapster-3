@@ -77,7 +77,9 @@ def calibrateCamFeed(bot, cam):
     cam.release()
     cv.destroyAllWindows()
 
-def findButtons(frame, color, centerCoords = False): #returns a 2d list of buttons with their x, y loc and "value", i.e. [["skip", 10, 20], ...]
+#frame inputted MUST be the same dimensions as the calibration image (currently 480x640 VERTICAL)
+#and all features must be in the same position -- no shifting -- for this to accurately translate to robot space
+def findButtons(frame, buttonContourSize = None, centerCoords = False): #returns a 2d list of buttons with their x, y loc in robot space, dims, and "value", i.e. [["skip", 10, 20, 5, 5], ...]
     #pseudocode:
     """
     apply a mask to the image to get rid of everything but [color]
@@ -94,4 +96,39 @@ def findButtons(frame, color, centerCoords = False): #returns a 2d list of butto
     if centerCoords = True, set the coordinates = the (x, y) of the CENTER of the button.
     else set to top left corner (or whatever the contours alg picks out)
     """
+    frame2 = frame.copy()
+
+    frame = cv.cvtColor(frame, cv.COLOR_RGB2GRAY) #grayscale
+    #frame = cv.medianBlur(frame, 5) #apply blur
+    ret, frame = cv.threshold(frame, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU) #apply Otsu thresholding -- used for denoising
+    frame = cv.bitwise_not(frame)
+    cv.imshow("pre-contour", frame)
+
+    # Contours -- used for removing small noise/unwanted small features from the image. Put into a mask and then applied to image.
+    cnts = cv.findContours(frame.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE) #find contours
+    cnts = cnts[0]
+
+    # make an empty mask 
+    mask = np.ones(frame.shape[:2], dtype = "uint8") * 255
+    for c in cnts:
+        # if the contour is not sufficiently large, ignore it
+        if cv.contourArea(c) < 100:
+            peri = cv.arcLength(c, True)
+            approx = cv.approxPolyDP(c, 0.04 * peri, True)
+            if len(approx) <= 4: cv.drawContours(mask, [c], -1, 0, -1) #filter out non-rectangles
+            continue
+
+    # Remove ignored contours
+    frame = cv.bitwise_and(frame.copy(), frame.copy(), mask = mask)
+    cv.imshow("f", frame)
+    cv.imshow("M", mask)
+    cv.waitKey(0)
     pass
+
+cam = cv.VideoCapture(3)
+
+ret, frame = cam.read()
+frame = cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
+cv.imshow("asdf", frame)
+
+findButtons(frame, None, False)
