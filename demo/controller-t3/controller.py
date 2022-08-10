@@ -57,8 +57,15 @@ def mouse(event, x, y, flags, param):
         mouseCoords[0] = x
         mouseCoords[1] = y
 
-def transformCoordinates(coordsToTransform, dataFile = "coordinateCalib.json"): #transforms pixel coordinates in the video feed, returns robot coordinates
-    with open(dataFile, "r") as file: coordinates = json.load(file)
+with open("coordinateCalib.json", "r") as file: calibCoordinates = json.load(file)
+if calibCoordinates[0][1] == [0, 0]:
+    print("Calibration was not run correctly. Please try again, and read the README for additional help.")
+    exit()
+
+#transforms pixel coordinates in the video feed, returns robot coordinates
+def transformCoordinates(coordsToTransform, dataFile = "coordinateCalib.json"):
+    global calibCoordinates
+    coordinates = calibCoordinates
 
     p = 1 #identifier for point b, used for distance calculations
     
