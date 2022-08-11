@@ -11,12 +11,9 @@
 #    - Miscellaneous Python dependencies required for computer vision
 #
 #                                             Usage
-# - Run with: python3 controller.py [optArgs] [ROBOTPORT] [CAMERAPORT]
-#    - Linux example (Ubuntu 22.04): python3 calibrate.py /dev/ttyUSB0 0
-#    - At least on Linux, the camera port will be a single number. Start with 0, and keep going up
-#      until the camera opens successfully (no error message from Python)
-# - Optional Arguments:
-#    - -p : Prints Gcode coordinates for the recorded moves out to the terminal screen.
+# - Click anywhere within the Camera window, and the robot will go and tap there! Alternatively,
+#   you can make the robot follow the cursor, or print data out to a terminal window for you to
+#   implement into your own code later on!
 #
 ###################################################################################################
 
@@ -27,43 +24,52 @@ import statistics as stats
 import cv2 as cv
 import numpy as np
 import json
+import argparse
 import robot
 #from calibrate import applyDistortionCorrection #reuse distortion correction program
 
-printCoords = False
-if len(sys.argv) > 2: #take in the serial port name from the args
-    if sys.argv[1][0] == "-":
-        if sys.argv[1][1] == "p": printCoords = True
-        PORT = sys.argv[2]
-        CAMPORT = int(sys.argv[3])
-    else: 
-        PORT = sys.argv[1]
-        CAMPORT = int(sys.argv[2])
-else:
-    print("Please specify a port for both the robot and camera.")
-    exit()
+parser = argparse.ArgumentParser()
+parser.add_argument("PORT", help = "The COM port of the connection to the robot (i.e. COM3, /dev/ttyUSB0)")
+parser.add_argument("CAMPORT", help = "The ID of the camera", type = int)
+parser.add_argument("-p", "--print-python", help = "Prints coordinates of places clicked in formatted Python", action = "count")
+parser.add_argument("-g", "--print-gcode", help = "Prints coordinates of places clicked in formatted GCode", action = "count")
+parser.add_argument("-c", "--coordinate-config", help = "Custom path to coordinate calibration file")
+parser.add_argument("-d", "--distortion-config", help = "Custom path to camera distortion calibration file")
+parser.add_argument("-f", "--follow", help = "Enables \"follow mode\" -- the robot follows the mouse cursor", action = "count")
 
-bot = robot.Robot(PORT, -15, -25, False, 0.09)
+args = parser.parse_args()
+
+bot = robot.Robot(args.PORT, -15, -25, False, 0.09)
 bot.go(0, 0, 0)
 bot.go(0, 80, 60)
+
+if args.print_python: print(f"bot = robot.Robot({args.PORT}, {bot.clearance_height}, {bot.tap_height}, {bot.printCoordinates}, {bot.sendPause})")
 
 mouseCoords = [0, 0]
 isNewCoords = False
 # mouse callback function
-def mouse(event, x, y, flags, param):
+def mouseClick(event, x, y, flags, param):
     global mouseCoords, isNewCoords
     if event == cv.EVENT_LBUTTONUP:
         isNewCoords = True
         mouseCoords[0] = x
         mouseCoords[1] = y
 
-with open("coordinateCalib.json", "r") as file: calibCoordinates = json.load(file)
+isClick = False
+def mouseFollow(event, x, y, flags, param):
+    global mouseCoords, isNewCoords, isClick
+    if event == cv.EVENT_MOUSEMOVE:
+        mouseCoords = [x, y]
+        isNewCoords = True
+    if event == cv.EVENT_LBUTTONDOWN: isClick = True    
+
+with open(args.coordinate_config if args.coordinate_config else "coordinateCalib.json", "r") as file: calibCoordinates = json.load(file)
 if calibCoordinates[0][1] == [0, 0]:
     print("Calibration was not run correctly. Please try again, and read the README for additional help.")
     exit()
 
 #transforms pixel coordinates in the video feed, returns robot coordinates
-def transformCoordinates(coordsToTransform, dataFile = "coordinateCalib.json"):
+def transformCoordinates(coordsToTransform):
     global calibCoordinates
     coordinates = calibCoordinates
 
@@ -90,7 +96,7 @@ def transformCoordinates(coordsToTransform, dataFile = "coordinateCalib.json"):
     return (coordinates[p][0][0] + toTransformDelta[0], -1*(coordinates[p][0][1] + toTransformDelta[1]))
 
 
-cam = cv.VideoCapture(CAMPORT)
+cam = cv.VideoCapture(int(args.CAMPORT))
 try: #handle the camera being incorrectly initialized
     ret, frame = cam.read()
     cv.imshow("f", frame)
@@ -100,7 +106,7 @@ except:
     exit()
 
 cv.namedWindow("Camera")
-cv.setMouseCallback("Camera", mouse)
+cv.setMouseCallback("Camera", mouseFollow if args.follow else mouseClick)
 
 while True:
     ret, frame = cam.read()
@@ -109,16 +115,21 @@ while True:
 
     if isNewCoords:
         coords = transformCoordinates(mouseCoords)
-        if printCoords:
+        if args.print_gcode:
             print(f"G0 X{coords[0]} Y{coords[1]} Z{bot.tap_height}")
             print(f"G0 X{coords[0]} Y{coords[1]} Z{bot.clearance_height}")
-        bot.go(0, 80, 10)
-        bot.tap(coords[0], coords[1], 0.25, 0.1)
-        bot.go(0, 80, 10)
-        bot.go(0, 80, 60) #move bot back to "home" position
+        elif args.print_python: print(f"bot.tap({coords[0]}, {coords[1]})")
+
+        if isClick or args.follow == None:
+            bot.go(0, 80, 10)
+            bot.tap(coords[0], coords[1], 0.25, 0.1)
+            bot.go(0, 80, 10)
+            bot.go(0, 80, 60) #move bot back to "home" position
+            isClick = False
+        else: bot.go(coords[0], coords[1], bot.clearance_height) #for follow mode
         isNewCoords = False
     
-    if cv.waitKey(1) == ord("q"): break
+    if cv.waitKey(1) == ord("q"): break #q to quit
 
 cam.release()
 cv.destroyAllWindows()

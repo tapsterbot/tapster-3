@@ -25,22 +25,16 @@
 import sys
 import cv2 as cv
 import numpy as np
+import argparse
 import json
 
-MODEL = None
-if len(sys.argv) > 2:
-    if sys.argv[1][0] == "-":
-        if sys.argv[1][1] == "t": MODEL = "t"
-        elif sys.argv[1][1] == "T": MODEL = "T"
-    
-    if MODEL == None:
-        print("Please specify a correct robot model.")
-        exit()
+parser = argparse.ArgumentParser()
+parser.add_argument("CAMPORT", help = "The ID of the camera", type = int)
+parser.add_argument("bot-model", help = "The model of Tapster robot you have (t for Tapster 3, T for Tapster 3+)", choices = ["t", "T"])
+parser.add_argument("-c", "--coordinate-config", help = "Custom path to coordinate calibration file")
+parser.add_argument("-d", "--distortion-config", help = "Custom path to camera distortion calibration file")
 
-    CAMPORT = int(sys.argv[2])
-else:
-    print("Please specify an index/port for the camera and/or a robot model.")
-    exit()
+args = parser.parse_args()
 
 input("""
                 Calibration for Tapster 3
@@ -50,6 +44,8 @@ input("""
 - Place calibration stick on the phone holder base
 - Line the calibration stick up with the back and sides of the
   phone holder base
+- Remove power from the robot, and move the delta linkages out of 
+  the way of the camera
 - Make sure the camera is plugged in!
 - Have your camera distortion correction images the ./calib-images/
   directory
@@ -61,9 +57,11 @@ Press enter when ready.""")
 #================================================================#
 
 def calDistortionCorrection():
+    with open(args.distortion_config if args.distortion_config else "distortionCalib.json", "w") as file: json.dump(None, file)
     pass #implement later
 
 def applyDistortionCorrection(frame):
+    with open(args.distortion_config if args.distortion_config else "distortionCalib.json", "r") as file: data = json.load(file)
     return frame #implement later
 
 def preProcessFrame(frame, blackRange, invertSrc):
@@ -113,7 +111,7 @@ def findCircleContours(contours):
 #================================================================#
 
 
-cam = cv.VideoCapture(CAMPORT)
+cam = cv.VideoCapture(int(args.CAMPORT))
 try: #handle the camera being incorrectly initialized
     ret, frame = cam.read()
     cv.imshow("f", frame)
@@ -125,7 +123,7 @@ except:
 while True:
     ret, frame = cam.read()
     frame = cv.rotate(frame, cv.ROTATE_90_CLOCKWISE)
-    cv.imshow(f"Camera {CAMPORT}", frame)
+    cv.imshow(f"Camera {int(args.CAMPORT)}", frame)
     cv.waitKey(1500)
     cv.destroyAllWindows()
     i = input("Was that the correct camera feed? [y/n/[s]how again] ")
@@ -143,8 +141,8 @@ frame = applyDistortionCorrection(frame) #apply distortion correction before cal
 
 # the coordinates of the circle stickers in "robot space" is a known, guaranteed value.
 # the values in the camera feed are unknown, and this list maps the two together. 
-if MODEL == "t": coordinates = [[[-2, 52], [0, 0]], [[-2, 1],[0, 0]], [[-2, -48], [0, 0]]]
-elif MODEL == "T":
+if args.bot_model == "t": coordinates = [[[-2, 52], [0, 0]], [[-2, 1],[0, 0]], [[-2, -48], [0, 0]]]
+elif args.bot_model == "T":
     print("Feature not implemented yet.")
     exit()
 
@@ -164,9 +162,9 @@ for i, c in enumerate(circleConts):
     centerY = y + (h/2)
     coordinates[i][1] = [centerX, centerY]
 
-with open("coordinateCalib.json", "w") as file: json.dump(coordinates, file)
+with open(args.coordinate_config if args.coordinate_config else "coordinateCalib.json", "w") as file: json.dump(coordinates, file)
 
 cam.release()
 
-print("Done! Results printed here and dumped to coordinateCalib.json\n")
+print("Done! Results printed here and dumped to " + args.coordinate_config if args.coordinate_config else "coordinateCalib.json" + "\n")
 print(coordinates)
