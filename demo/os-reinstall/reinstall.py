@@ -1,7 +1,7 @@
 #Arguments:
 # folderPath : All dependencies and the os are already downloaded and installed from a previous reflash, just flash the device with the os at folderPath
 # -F : First time setup, install ALL dependencies along with downloading the OS
-# -f : First time setup WITH THIS OS (all other dependencies are already installed) -- just downlaod OS
+# -f : First time setup WITH THIS OS (all other dependencies are already installed) -- just download OS
 
 # Precondition: This script is run inside the folder to be used as the download/install directory (i.e. ~/android-reflash/)
 

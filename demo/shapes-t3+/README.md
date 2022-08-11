@@ -1,3 +1,8 @@
+# Setup
+```
+pip install svg-to-gcode
+```
+
 # Using the SVG Drawer
 ## For Shapes:
 - Make your SVG in a program such as Inkscape, and save it to this directory.
