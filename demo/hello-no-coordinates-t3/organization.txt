@@ -1,0 +1,50 @@
+organization notes for next week:
+
+tl;dr - this entire directory needs to be repackaged into nice sensible files, junk needs to be deleted,
+        and stuff needs to be cleaned out before I merge
+
+
+end goal 1: make the backend stuff for the controller app
+end goal 2: have cv and tesseract pick out buttons and be able to press them off of an image
+
+remove all unused imports!
+
+header ALL FILES! (including hello.py!)
+
+go through and rename classes, methods, and files so they do not conflict and are named WELL!
+ - comment all methods, especially the ones in a "cvUtils" class or similar
+
+copy this directory and repackage everything so it can be easily used in the controller app
+ - toss controller edited directory in /tapster-3/
+
+#===========================================#
+
+important functions:
+- general utilities
+  - cvUtils/clearImageBuffer
+  - cvUtils/addImages
+  - cvUtils/scaleDownFrame
+- preprocessing, tesseract text detection
+  - cvUtils/preProcessFrame (keep as sample?)
+  - cvUtils/processText (GENERALIZE)
+  - cvUtils/evalText (RENAME)
+- coordinate transform
+  - pullCoordinates/transformCoordinates
+  - pullCoordinates/calibrateCamFeed (RENAME!)
+
+replace/fix these functions:
+- cvUtils/calibFishEyeRemover (BROKEN)
+- cvUtils/removeFishEyeDistortion (BROKEN)
+- checkAnswer/checkAnswer (RENAME, clarify what it is for)
+
+remove these functions/files:
+- test.py (used for fisheye testing)
+- calc.py (replace with cv stuff for auto button detection? at least clarify it)
+
+data to store in config files:
+- "robot space" coords for calib stick points
+- corresponding "cam space" coordinates
+  - find a way to merge this and the robot space coords into one json
+- fisheye calibration matrices
+
+^^^^Name these files sensibly please!

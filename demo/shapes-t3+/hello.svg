@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="42mm"
+   height="42mm"
+   viewBox="0 0 42 42"
+   version="1.1"
+   id="svg69"
+   inkscape:version="1.2 (1:1.2+202206011326+fc4e4096c5)"
+   sodipodi:docname="hello.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview71"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.3075636"
+     inkscape:cx="396.92142"
+     inkscape:cy="129.63041"
+     inkscape:window-width="1600"
+     inkscape:window-height="784"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="text143" />
+  <defs
+     id="defs66" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       aria-label="Hello"
+       transform="matrix(1.87651 0 0 4.26592 -9.96529 -15.7474)"
+       id="text143"
+       style="font-size:14.1111px;white-space:pre;inline-size:24.6453;stroke-width:0.264583">
+      <g
+         inkscape:label="Hershey Text"
+         style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round"
+         transform="matrix(0,-1.0038102,2.2819831,0,-2.2309044,17.174058)"
+         id="g3161">
+        <g
+           transform="translate(4.05239,9.85969)"
+           id="g3159">
+          <path
+             d="m 31.5,158 63,94 94.5,158 31,62 32,95 v 63 L 220,662 158,630 126,567 94.5,441 63,252 31.5,0 m 0,0 31.5,94.5 31.5,63.5 63.5,94 62,32 h 64 l 31,-32 V 189 L 284,94.5 v -63 L 315,0 h 31 l 64,31.5 31,31.5 63,95"
+             style="stroke-width:0.101in"
+             transform="scale(0.00498746,-0.00498746)"
+             id="path3149" />
+          <path
+             d="m 63,63 63,31.5 32,31.5 31,63 v 63 l -31,32 H 126 L 63,252 31.5,189 V 94.5 L 63,31.5 126,0 h 63 l 63,31.5 32,31.5 62,95"
+             style="stroke-width:0.101in"
+             transform="matrix(0.00498746,0,0,-0.00498746,2.35408,0)"
+             id="path3151" />
+          <path
+             d="m 31.5,158 63,94 94.5,158 31,62 32,95 v 63 L 220,662 158,630 126,567 94.5,441 63,220 V 31.5 L 94.5,0 H 126 l 63,31.5 31,31.5 64,95"
+             style="stroke-width:0.101in"
+             transform="matrix(0.00498746,0,0,-0.00498746,3.92513,0)"
+             id="path3153" />
+          <path
+             d="m 31.5,158 63,94 94.5,158 31,62 32,95 v 63 L 220,662 158,630 126,567 94.5,441 63,220 V 31.5 L 94.5,0 H 126 l 63,31.5 31,31.5 64,95"
+             style="stroke-width:0.101in"
+             transform="matrix(0.00498746,0,0,-0.00498746,5.18197,0)"
+             id="path3155" />
+          <path
+             d="M 220,284 H 158 L 94.5,252 63,220 31.5,158 V 94.5 L 63,31.5 126,0 h 63 l 63,31.5 32,31.5 31,63 v 63 l -31,63 -64,32 -31,-32 v -63 l 31,-63 64,-31.5 h 94 l 63,31.5 31,32"
+             style="stroke-width:0.101in"
+             transform="matrix(0.00498746,0,0,-0.00498746,6.43881,0)"
+             id="path3157" />
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

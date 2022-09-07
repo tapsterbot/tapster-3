@@ -1,0 +1,2 @@
+# This demo is INCOMPLETE.
+This demo is incomplete, and not in functioning order. Code from this directory can be used as sample code for other projects, but it is not meant to be run in any form, and will throw errors.
